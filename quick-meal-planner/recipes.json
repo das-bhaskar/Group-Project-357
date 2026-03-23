@@ -1,0 +1,386 @@
+{
+  "recipes": [
+    {
+      "id": 1,
+      "name": "Spaghetti Bolognese",
+      "cuisine": "Italian",
+      "servings": 4,
+      "prep_time_minutes": 15,
+      "cook_time_minutes": 45,
+      "ingredients": [
+        { "name": "spaghetti", "quantity": 400, "unit": "g" },
+        { "name": "ground beef", "quantity": 250, "unit": "g" },
+        { "name": "tomato sauce", "quantity": 500, "unit": "ml" }
+      ],
+      "steps": [
+        "Cook pasta.",
+        "Brown beef.",
+        "Add sauce and simmer.",
+        "Combine and serve."
+      ],
+      "tags": ["pasta", "main"]
+    },
+    {
+      "id": 2,
+      "name": "Chicken Curry",
+      "cuisine": "Indian",
+      "servings": 4,
+      "prep_time_minutes": 20,
+      "cook_time_minutes": 40,
+      "ingredients": [
+        { "name": "chicken", "quantity": 500, "unit": "g" },
+        { "name": "curry paste", "quantity": 2, "unit": "tbsp" },
+        { "name": "coconut milk", "quantity": 400, "unit": "ml" }
+      ],
+      "steps": [
+        "Cook chicken.",
+        "Add curry paste.",
+        "Pour coconut milk and simmer."
+      ],
+      "tags": ["spicy", "main"]
+    },
+    {
+      "id": 3,
+      "name": "Beef Tacos",
+      "cuisine": "Mexican",
+      "servings": 3,
+      "prep_time_minutes": 15,
+      "cook_time_minutes": 15,
+      "ingredients": [
+        { "name": "ground beef", "quantity": 300, "unit": "g" },
+        { "name": "taco shells", "quantity": 6, "unit": "units" },
+        { "name": "lettuce", "quantity": 1, "unit": "cup" }
+      ],
+      "steps": [
+        "Cook beef.",
+        "Fill shells.",
+        "Add toppings."
+      ],
+      "tags": ["quick", "street food"]
+    },
+    {
+      "id": 4,
+      "name": "Vegetable Stir Fry",
+      "cuisine": "Chinese",
+      "servings": 2,
+      "prep_time_minutes": 10,
+      "cook_time_minutes": 10,
+      "ingredients": [
+        { "name": "mixed vegetables", "quantity": 300, "unit": "g" },
+        { "name": "soy sauce", "quantity": 2, "unit": "tbsp" },
+        { "name": "garlic", "quantity": 2, "unit": "cloves" }
+      ],
+      "steps": [
+        "Heat oil.",
+        "Add veggies.",
+        "Stir fry with sauce."
+      ],
+      "tags": ["vegan", "healthy"]
+    },
+    {
+      "id": 5,
+      "name": "Pancakes",
+      "cuisine": "Global",
+      "servings": 4,
+      "prep_time_minutes": 10,
+      "cook_time_minutes": 15,
+      "ingredients": [
+        { "name": "flour", "quantity": 1.5, "unit": "cups" },
+        { "name": "milk", "quantity": 1.25, "unit": "cups" },
+        { "name": "egg", "quantity": 1, "unit": "unit" }
+      ],
+      "steps": [
+        "Mix ingredients.",
+        "Cook on pan.",
+        "Flip and serve."
+      ],
+      "tags": ["breakfast"]
+    },
+    {
+      "id": 6,
+      "name": "Grilled Cheese Sandwich",
+      "cuisine": "American",
+      "servings": 1,
+      "prep_time_minutes": 5,
+      "cook_time_minutes": 5,
+      "ingredients": [
+        { "name": "bread", "quantity": 2, "unit": "slices" },
+        { "name": "cheese", "quantity": 2, "unit": "slices" },
+        { "name": "butter", "quantity": 1, "unit": "tbsp" }
+      ],
+      "steps": [
+        "Butter bread.",
+        "Add cheese.",
+        "Grill until golden."
+      ],
+      "tags": ["quick", "comfort"]
+    },
+    {
+      "id": 7,
+      "name": "Caesar Salad",
+      "cuisine": "Italian-American",
+      "servings": 2,
+      "prep_time_minutes": 10,
+      "cook_time_minutes": 0,
+      "ingredients": [
+        { "name": "lettuce", "quantity": 1, "unit": "head" },
+        { "name": "croutons", "quantity": 1, "unit": "cup" },
+        { "name": "caesar dressing", "quantity": 0.5, "unit": "cup" }
+      ],
+      "steps": [
+        "Chop lettuce.",
+        "Add toppings.",
+        "Toss with dressing."
+      ],
+      "tags": ["salad"]
+    },
+    {
+      "id": 8,
+      "name": "Tomato Soup",
+      "cuisine": "Global",
+      "servings": 3,
+      "prep_time_minutes": 10,
+      "cook_time_minutes": 25,
+      "ingredients": [
+        { "name": "tomatoes", "quantity": 500, "unit": "g" },
+        { "name": "onion", "quantity": 1, "unit": "unit" },
+        { "name": "cream", "quantity": 100, "unit": "ml" }
+      ],
+      "steps": [
+        "Cook vegetables.",
+        "Blend.",
+        "Add cream and simmer."
+      ],
+      "tags": ["soup"]
+    },
+    {
+      "id": 9,
+      "name": "Fried Rice",
+      "cuisine": "Chinese",
+      "servings": 3,
+      "prep_time_minutes": 10,
+      "cook_time_minutes": 10,
+      "ingredients": [
+        { "name": "rice", "quantity": 2, "unit": "cups" },
+        { "name": "egg", "quantity": 2, "unit": "units" },
+        { "name": "soy sauce", "quantity": 2, "unit": "tbsp" }
+      ],
+      "steps": [
+        "Scramble eggs.",
+        "Add rice.",
+        "Stir with sauce."
+      ],
+      "tags": ["quick"]
+    },
+    {
+      "id": 10,
+      "name": "Chocolate Cake",
+      "cuisine": "Dessert",
+      "servings": 8,
+      "prep_time_minutes": 20,
+      "cook_time_minutes": 30,
+      "ingredients": [
+        { "name": "flour", "quantity": 2, "unit": "cups" },
+        { "name": "cocoa powder", "quantity": 0.5, "unit": "cup" },
+        { "name": "sugar", "quantity": 1.5, "unit": "cups" }
+      ],
+      "steps": [
+        "Mix ingredients.",
+        "Bake.",
+        "Cool and serve."
+      ],
+      "tags": ["dessert"]
+    },
+
+    {
+      "id": 11,
+      "name": "Omelette",
+      "cuisine": "French",
+      "servings": 1,
+      "prep_time_minutes": 5,
+      "cook_time_minutes": 5,
+      "ingredients": [
+        { "name": "eggs", "quantity": 2, "unit": "units" },
+        { "name": "milk", "quantity": 2, "unit": "tbsp" },
+        { "name": "cheese", "quantity": 0.25, "unit": "cup" }
+      ],
+      "steps": [
+        "Beat eggs.",
+        "Cook in pan.",
+        "Add fillings and fold."
+      ],
+      "tags": ["breakfast"]
+    },
+    {
+      "id": 12,
+      "name": "Hamburger",
+      "cuisine": "American",
+      "servings": 2,
+      "prep_time_minutes": 10,
+      "cook_time_minutes": 10,
+      "ingredients": [
+        { "name": "ground beef", "quantity": 300, "unit": "g" },
+        { "name": "buns", "quantity": 2, "unit": "units" },
+        { "name": "lettuce", "quantity": 1, "unit": "cup" }
+      ],
+      "steps": [
+        "Form patties.",
+        "Grill.",
+        "Assemble burger."
+      ],
+      "tags": ["fast food"]
+    },
+    {
+      "id": 13,
+      "name": "Margherita Pizza",
+      "cuisine": "Italian",
+      "servings": 2,
+      "prep_time_minutes": 20,
+      "cook_time_minutes": 15,
+      "ingredients": [
+        { "name": "pizza dough", "quantity": 1, "unit": "unit" },
+        { "name": "tomato sauce", "quantity": 0.5, "unit": "cup" },
+        { "name": "mozzarella", "quantity": 200, "unit": "g" }
+      ],
+      "steps": [
+        "Spread sauce.",
+        "Add cheese.",
+        "Bake."
+      ],
+      "tags": ["pizza"]
+    },
+    {
+      "id": 14,
+      "name": "Greek Salad",
+      "cuisine": "Greek",
+      "servings": 2,
+      "prep_time_minutes": 10,
+      "cook_time_minutes": 0,
+      "ingredients": [
+        { "name": "tomatoes", "quantity": 2, "unit": "units" },
+        { "name": "cucumber", "quantity": 1, "unit": "unit" },
+        { "name": "feta cheese", "quantity": 100, "unit": "g" }
+      ],
+      "steps": [
+        "Chop vegetables.",
+        "Add cheese.",
+        "Drizzle olive oil."
+      ],
+      "tags": ["healthy"]
+    },
+    {
+      "id": 15,
+      "name": "Sushi Rolls",
+      "cuisine": "Japanese",
+      "servings": 2,
+      "prep_time_minutes": 30,
+      "cook_time_minutes": 10,
+      "ingredients": [
+        { "name": "sushi rice", "quantity": 2, "unit": "cups" },
+        { "name": "nori", "quantity": 4, "unit": "sheets" },
+        { "name": "fish", "quantity": 200, "unit": "g" }
+      ],
+      "steps": [
+        "Prepare rice.",
+        "Roll ingredients.",
+        "Slice."
+      ],
+      "tags": ["seafood"]
+    },
+    {
+      "id": 16,
+      "name": "Lentil Soup",
+      "cuisine": "Middle Eastern",
+      "servings": 4,
+      "prep_time_minutes": 10,
+      "cook_time_minutes": 30,
+      "ingredients": [
+        { "name": "lentils", "quantity": 1, "unit": "cup" },
+        { "name": "carrot", "quantity": 1, "unit": "unit" },
+        { "name": "onion", "quantity": 1, "unit": "unit" }
+      ],
+      "steps": [
+        "Cook vegetables.",
+        "Add lentils.",
+        "Simmer."
+      ],
+      "tags": ["vegan"]
+    },
+    {
+      "id": 17,
+      "name": "Pad Thai",
+      "cuisine": "Thai",
+      "servings": 2,
+      "prep_time_minutes": 15,
+      "cook_time_minutes": 15,
+      "ingredients": [
+        { "name": "rice noodles", "quantity": 200, "unit": "g" },
+        { "name": "shrimp", "quantity": 150, "unit": "g" },
+        { "name": "peanuts", "quantity": 50, "unit": "g" }
+      ],
+      "steps": [
+        "Soak noodles.",
+        "Stir fry ingredients.",
+        "Combine and serve."
+      ],
+      "tags": ["noodles"]
+    },
+    {
+      "id": 18,
+      "name": "Apple Pie",
+      "cuisine": "Dessert",
+      "servings": 6,
+      "prep_time_minutes": 25,
+      "cook_time_minutes": 45,
+      "ingredients": [
+        { "name": "apples", "quantity": 4, "unit": "units" },
+        { "name": "flour", "quantity": 2, "unit": "cups" },
+        { "name": "sugar", "quantity": 1, "unit": "cup" }
+      ],
+      "steps": [
+        "Prepare crust.",
+        "Add filling.",
+        "Bake."
+      ],
+      "tags": ["dessert"]
+    },
+    {
+      "id": 19,
+      "name": "Guacamole",
+      "cuisine": "Mexican",
+      "servings": 2,
+      "prep_time_minutes": 10,
+      "cook_time_minutes": 0,
+      "ingredients": [
+        { "name": "avocado", "quantity": 2, "unit": "units" },
+        { "name": "lime", "quantity": 1, "unit": "unit" },
+        { "name": "salt", "quantity": 0.5, "unit": "tsp" }
+      ],
+      "steps": [
+        "Mash avocado.",
+        "Add lime and salt.",
+        "Mix."
+      ],
+      "tags": ["dip"]
+    },
+    {
+      "id": 20,
+      "name": "Roast Chicken",
+      "cuisine": "Global",
+      "servings": 4,
+      "prep_time_minutes": 15,
+      "cook_time_minutes": 60,
+      "ingredients": [
+        { "name": "whole chicken", "quantity": 1, "unit": "unit" },
+        { "name": "salt", "quantity": 1, "unit": "tbsp" },
+        { "name": "butter", "quantity": 50, "unit": "g" }
+      ],
+      "steps": [
+        "Season chicken.",
+        "Roast in oven.",
+        "Rest and serve."
+      ],
+      "tags": ["main"]
+    }
+  ]
+}
