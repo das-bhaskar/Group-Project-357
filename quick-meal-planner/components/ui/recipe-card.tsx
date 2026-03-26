@@ -17,7 +17,6 @@ const RecipeCard: React.FC<Props> = ({ recipe, onPress }) => {
 // move recipe modal into own file
   return (
     <SafeAreaProvider>
-      
       <Modal
         animationType='slide'
         visible={modalVisible}
@@ -26,16 +25,22 @@ const RecipeCard: React.FC<Props> = ({ recipe, onPress }) => {
           setModalVisible(!modalVisible);
         }}
       >
-      <View style={styles.centeredView}>
+      <Pressable onPress={() => setModalVisible(!modalVisible)} style={styles.centeredView}>
+      <View>
         <View style={styles.modalView}>
-          <Text>{recipe.name}</Text>
-          <Pressable
-            onPress={() => setModalVisible(!modalVisible)}
-          >
-            <Text>Hide Modal</Text>
-          </Pressable>
+            <Text style={styles.title}>{recipe.name}</Text>
+            <View style={styles.container}>
+              <Text style={styles.subtext}>⏱ {totalTime} min</Text>
+              <Text style={styles.subtext}>🍽 {recipe.servings}</Text>
+            </View>
+                {recipe.steps.map((step, index) => (
+            <Text key={index}>
+              {index + 1}.{step}
+            </Text>
+          ))}
         </View>
       </View>
+      </Pressable>
       </Modal>
       <Pressable style={styles.card} onPress={() => setModalVisible(true)}>
         <View style={styles.content}>
@@ -86,6 +91,9 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: "#999",
   },
+  subtext: {
+    margin: 5
+  },
   tags: {
     flexDirection: "row",
     gap: 8,
@@ -113,5 +121,10 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 4,
     elevation: 5
-  }
+  },
+  container: {
+    flexDirection: 'row', // Aligns children horizontally
+    justifyContent: 'space-between', // Distributes available space between the two texts
+    padding: 10,
+  },
 });
