@@ -26,20 +26,26 @@ const RecipeCard: React.FC<Props> = ({ recipe, onPress }) => {
         }}
       >
       <Pressable onPress={() => setModalVisible(!modalVisible)} style={styles.centeredView}>
-      <View>
-        <View style={styles.modalView}>
-            <Text style={styles.title}>{recipe.name}</Text>
-            <View style={styles.container}>
-              <Text style={styles.subtext}>⏱ {totalTime} min</Text>
-              <Text style={styles.subtext}>🍽 {recipe.servings}</Text>
-            </View>
-                {recipe.steps.map((step, index) => (
-            <Text key={index}>
-              {index + 1}.{step}
-            </Text>
-          ))}
+        <View>
+          <View style={styles.modalView}>
+              <Text style={styles.title}>{recipe.name}</Text>
+              <View style={styles.container}>
+                <Text style={styles.subtext}>⏱ {totalTime} min</Text>
+                <Text style={styles.subtext}>🍽 {recipe.servings}</Text>
+              </View>
+              {recipe.steps.map((step, index) => (
+                <Text key={index}>
+                  {index + 1}.{step}
+                </Text>
+              ))}
+            <Text style={styles.title}>Ingredients</Text>
+            {recipe.ingredients.map((ingredient, index) => (
+              <Text key={index}>
+                {ingredient.name} - {ingredient.quantity}{ingredient.unit}
+              </Text>
+            ))}
+          </View>
         </View>
-      </View>
       </Pressable>
       </Modal>
       <Pressable style={styles.card} onPress={() => setModalVisible(true)}>
