@@ -1,41 +1,38 @@
-import { Image } from 'expo-image';
-import { Platform, StyleSheet } from 'react-native';
 
-import { Collapsible } from '@/components/ui/collapsible';
-import { ExternalLink } from '@/components/external-link';
+import { Button, Platform, StyleSheet, TextInput, View } from 'react-native';
 import ParallaxScrollView from '@/components/parallax-scroll-view';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 import { IconSymbol } from '@/components/ui/icon-symbol';
 import { Fonts } from '@/constants/theme';
-import TextInputExample from '@/components/ui/text-input';
-
+import { useState } from 'react';
+import Login from '@/components/ui/login';
+import ProfileInformation from '@/components/ui/profile-information';
 
 export default function ProfileScreen() {
-  return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#D0D0D0', dark: '#353636' }}
-      headerImage={
-        <IconSymbol
-          size={310}
-          color="#808080"
-          name="paperplane.fill"
-          style={styles.headerImage}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText
-          type="title"
-          style={{
-            fontFamily: Fonts.rounded,
-          }}>
-          Profile
-        </ThemedText>
-      </ThemedView>
-      <ThemedText>This app includes example code to help you get started.</ThemedText>
-      <TextInputExample></TextInputExample>
-    </ParallaxScrollView>
-  );
+
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userToken, setUserToken] = useState<string | null>(null);
+
+  /**
+   * Callback function passed to the LoginScreen to update parent state.
+   */
+  const handleLoginSuccess = (loggedInStatus: boolean, token: string) => {
+    setIsLoggedIn(loggedInStatus);
+    setUserToken(token);
+  };
+
+  if (isLoggedIn) {
+    return (
+      <View style={styles.container}>
+        <ThemedText>Welcome! You are logged in.</ThemedText>
+        <ThemedText>Your token: {userToken}</ThemedText>
+        {/* Add more app content here */}
+      </View>
+    );
+  }
+
+  return <Login onLoginSuccess={handleLoginSuccess} />;
 }
 
 const styles = StyleSheet.create({
@@ -49,4 +46,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     gap: 8,
   },
+container: { flex: 1, justifyContent: 'center', alignItems: 'center' },
+
 });
