@@ -7,7 +7,6 @@ import { IconSymbol } from '@/components/ui/icon-symbol';
 import { Fonts } from '@/constants/theme';
 import { useState } from 'react';
 import Login from '@/components/ui/login';
-import ProfileInformation from '@/components/ui/profile-information';
 
 export default function ProfileScreen() {
 
