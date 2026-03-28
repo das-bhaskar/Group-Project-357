@@ -1,8 +1,9 @@
 // RecipeCard 
 import React, { useState } from "react";
-import { View, Text, StyleSheet, TouchableOpacity, Pressable, Modal, Alert } from "react-native";``
+import { View, Text, StyleSheet, TouchableOpacity, Pressable, Modal, Alert, Button } from "react-native";``
 import { Recipe } from "./types";
 import { SafeAreaProvider } from "react-native-safe-area-context";
+import { useRecipeContext } from "./types";
 
 
 type Props = {
@@ -11,11 +12,16 @@ type Props = {
 };
 
 const RecipeCard: React.FC<Props> = ({ recipe, onPress }) => {
+  const { addRecipe } = useRecipeContext();
   const totalTime = recipe.prep_time_minutes + recipe.cook_time_minutes;
 
   const totalCost = recipe.ingredients.reduce((accumulator, currentItem) => {
     return accumulator + (currentItem.cost);
   }, 0); // 0 is the initial value
+
+  const handleSelectRecipe = (recipe: any) => {
+    addRecipe(recipe);
+  };
 
   const [modalVisible, setModalVisible] = useState(false);
 // move recipe modal into own file
@@ -52,6 +58,13 @@ const RecipeCard: React.FC<Props> = ({ recipe, onPress }) => {
             <Text style={styles.title}>Total Cost</Text>
             <Text>{totalCost}
             </Text>
+            <View style={styles.container}>
+              <Button
+                title="Add to Schedule"
+                onPress={() =>handleSelectRecipe(recipe)}
+                color="#329863" 
+              />
+            </View>
           </View>
         </View>
       </Pressable>

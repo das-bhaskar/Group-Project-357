@@ -1,3 +1,5 @@
+import { createContext, useContext, useEffect, useState } from "react";
+
 export type Ingredient = {
   name: string;
   quantity: number;
@@ -28,3 +30,32 @@ export interface LoginScreenProps {
 export interface AppProps {
   // Add other props if needed
 }
+
+type RecipeContextType = {
+  weeklyRecipes: Recipe[];
+  addRecipe: (recipe: Recipe) => void;
+};
+
+const RecipeContext = createContext<RecipeContextType | undefined>(undefined);
+
+export const RecipeProvider = ({ children }: any) => {
+  const [weeklyRecipes, setWeeklyRecipes] = useState<Recipe[]>([]);
+
+  const addRecipe = (recipe: Recipe) => {
+    setWeeklyRecipes(prev => [...prev, recipe])
+  };
+
+  return (
+    <RecipeContext.Provider value={{ weeklyRecipes, addRecipe }}>
+      {children}
+    </RecipeContext.Provider>
+  );
+};
+
+export const useRecipeContext = () => {
+  const context = useContext(RecipeContext);
+  if (!context) {
+    throw new Error("useRecipeContext must be used within RecipeProvider");
+  }
+  return context;
+};

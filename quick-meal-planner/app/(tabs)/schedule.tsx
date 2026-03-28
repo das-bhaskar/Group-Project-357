@@ -1,12 +1,16 @@
 
-import { Platform, StyleSheet } from 'react-native';
+import { Button, Platform, StyleSheet } from 'react-native';
 import ParallaxScrollView from '@/components/parallax-scroll-view';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 import { IconSymbol } from '@/components/ui/icon-symbol';
 import { Fonts } from '@/constants/theme';
+import { useRecipeContext } from "@/components//ui/types";
 
 export default function ScheduleScreen() {
+
+  const { weeklyRecipes } = useRecipeContext();
+
   return (
     <ParallaxScrollView
       headerBackgroundColor={{ light: '#D0D0D0', dark: '#353636' }}
@@ -26,7 +30,13 @@ export default function ScheduleScreen() {
           }}>
           Schedule
         </ThemedText>
+
       </ThemedView>
+      <>
+        {weeklyRecipes.map(recipe => (
+          <ThemedText key={recipe.id} style={styles.meta}>{recipe.name}</ThemedText>
+        ))}
+      </>
     </ParallaxScrollView>
   );
 }
@@ -42,4 +52,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     gap: 8,
   },
+  meta: {
+    fontSize: 12,
+    color: "#999",
+  },
+  
 });

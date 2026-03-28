@@ -7,12 +7,14 @@ import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 import RecipeCarousel from "@/components/ui/recipe-carousel";
 import data from "@/recipes.json";
-import { RecipeResponse } from "@/components/ui/types";
+import { RecipeResponse,RecipeProvider } from "@/components/ui/types";
 
 const recipes = (data as RecipeResponse).recipes;
 
+
 export default function HomeScreen() {
   return (
+    <RecipeProvider>
     <ParallaxScrollView
       headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
       headerImage={
@@ -27,7 +29,7 @@ export default function HomeScreen() {
       </ThemedView>
       <RecipeCarousel data={recipes} />;
     </ParallaxScrollView>
-
+    </RecipeProvider>
   );
 }
 
