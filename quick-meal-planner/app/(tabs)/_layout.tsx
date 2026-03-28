@@ -8,6 +8,7 @@ import { useColorScheme } from '@/hooks/use-color-scheme';
 import { RecipeProvider } from "@/components/ui/types";
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 
 export default function TabLayout() {
@@ -15,6 +16,7 @@ export default function TabLayout() {
 
   return (
     <RecipeProvider>
+    <SafeAreaProvider>
     <Tabs
       screenOptions={{
         tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
@@ -50,6 +52,7 @@ export default function TabLayout() {
         }}
       />
     </Tabs>
+    </SafeAreaProvider>
     </RecipeProvider>
   );
 }

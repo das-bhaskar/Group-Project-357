@@ -1,9 +1,8 @@
 // RecipeCard 
 import React, { useState } from "react";
-import { View, Text, StyleSheet, TouchableOpacity, Pressable, Modal, Alert, Button } from "react-native";``
+import { View, Text, StyleSheet, Image, Pressable, Modal, Alert, Button } from "react-native";``
 import { Recipe } from "./types";
-import { SafeAreaProvider } from "react-native-safe-area-context";
-import { useRecipeContext } from "./types";
+import { useRecipeContext } from '@/components/ui//types';
 
 
 type Props = {
@@ -26,7 +25,7 @@ const RecipeCard: React.FC<Props> = ({ recipe, onPress }) => {
   const [modalVisible, setModalVisible] = useState(false);
 // move recipe modal into own file
   return (
-    <SafeAreaProvider>
+    <>
       <Modal
         animationType='slide'
         visible={modalVisible}
@@ -39,6 +38,7 @@ const RecipeCard: React.FC<Props> = ({ recipe, onPress }) => {
         <View>
           <View style={styles.modalView}>
               <Text style={styles.title}>{recipe.name}</Text>
+              <Image style={{ width: 250, height: 250 }}  source={require('@/assets/images/recipeImages/spaghetti-bolognese.webp') } ></Image>
               <View style={styles.container}>
                 <Text style={styles.subtext}>⏱ {totalTime} min</Text>
                 <Text style={styles.subtext}>🍽 {recipe.servings}</Text>
@@ -86,7 +86,7 @@ const RecipeCard: React.FC<Props> = ({ recipe, onPress }) => {
           </View>
         </View>
       </Pressable>
-    </SafeAreaProvider>
+      </>
   );
 };
 

@@ -1,15 +1,19 @@
-
-import { Button, Platform, StyleSheet } from 'react-native';
+import React, { useEffect } from 'react';
+import { StyleSheet } from 'react-native';
 import ParallaxScrollView from '@/components/parallax-scroll-view';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 import { IconSymbol } from '@/components/ui/icon-symbol';
 import { Fonts } from '@/constants/theme';
-import { useRecipeContext } from "@/components//ui/types";
+import { useRecipeContext } from '@/components/ui//types';
 
 export default function ScheduleScreen() {
-
   const { weeklyRecipes } = useRecipeContext();
+
+  // Debugging: confirm structure
+  useEffect(() => {
+    console.log("Weekly recipes in ScheduleScreen:", weeklyRecipes);
+  }, [weeklyRecipes]);
 
   return (
     <ParallaxScrollView
@@ -21,22 +25,28 @@ export default function ScheduleScreen() {
           name="chevron.left.forwardslash.chevron.right"
           style={styles.headerImage}
         />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText
-          type="title"
-          style={{
-            fontFamily: Fonts.rounded,
-          }}>
-          Schedule
-        </ThemedText>
+      }
+    >
+      <ThemedView style={styles.contentContainer}>
+        <ThemedView style={styles.titleContainer}>
+          <ThemedText type="title" style={{ fontFamily: Fonts.rounded }}>
+            Schedule
+          </ThemedText>
+        </ThemedView>
 
+        {weeklyRecipes.length === 0 ? (
+          <ThemedText style={styles.meta}>No recipes added yet</ThemedText>
+        ) : (
+          weeklyRecipes.map(recipe => (
+            <ThemedView>
+            <ThemedText>Recipe</ThemedText>
+            <ThemedText key={recipe.id} style={styles.meta}>
+              {recipe.name}
+            </ThemedText>
+            </ThemedView>
+          ))
+        )}
       </ThemedView>
-      <>
-        {weeklyRecipes.map(recipe => (
-          <ThemedText key={recipe.id} style={styles.meta}>{recipe.name}</ThemedText>
-        ))}
-      </>
     </ParallaxScrollView>
   );
 }
@@ -48,13 +58,17 @@ const styles = StyleSheet.create({
     left: -35,
     position: 'absolute',
   },
+  contentContainer: {
+    padding: 20,
+  },
   titleContainer: {
     flexDirection: 'row',
     gap: 8,
+    marginBottom: 16,
   },
   meta: {
-    fontSize: 12,
-    color: "#999",
+    fontSize: 14,
+    color: '#999',
+    marginBottom: 8,
   },
-  
 });

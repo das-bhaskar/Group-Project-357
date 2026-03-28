@@ -45,6 +45,10 @@ export const RecipeProvider = ({ children }: any) => {
     setWeeklyRecipes(prev => [...prev, recipe])
   };
 
+  useEffect(() => {
+    console.log("Weekly recipes changed:", weeklyRecipes);
+  }, [weeklyRecipes]);
+
   return (
     <RecipeContext.Provider value={{ weeklyRecipes, addRecipe }}>
       {children}

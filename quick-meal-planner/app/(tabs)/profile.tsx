@@ -1,5 +1,5 @@
 
-import { Button, Platform, StyleSheet, TextInput, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { ThemedText } from '@/components/themed-text';
 import { useState } from 'react';
 import Login from '@/components/ui/login';
