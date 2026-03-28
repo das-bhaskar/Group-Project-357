@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { View, TextInput, Button, StyleSheet } from 'react-native';
 import { LoginScreenProps } from './types';
+import { ThemedText } from '../themed-text';
 
 const LoginScreen: React.FC<LoginScreenProps> = ({ onLoginSuccess }) => {
   const [username, setUsername] = useState('');
@@ -17,7 +18,9 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ onLoginSuccess }) => {
   };
 
   return (
+
     <View style={styles.container}>
+    <ThemedText style={styles.title}>Login</ThemedText>
       <TextInput
         placeholder="Username"
         value={username}
@@ -37,8 +40,23 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ onLoginSuccess }) => {
 };
 
 const styles = StyleSheet.create({
-  container: { flex: 1, justifyContent: 'center', padding: 20 },
-  input: { borderWidth: 1, padding: 10, marginBottom: 10, width: '100%' },
+  container: { 
+    flex: 1, 
+    justifyContent: 'center', 
+    padding: 50 },
+  input: {
+    height: 40,
+    margin: 12,
+    borderWidth: 1,
+    borderColor: 'white',
+    padding: 10,
+    color: 'white'
+  },
+    title: {
+    fontSize: 18,
+    fontWeight: "600",
+  },
+
 });
 
 export default LoginScreen;

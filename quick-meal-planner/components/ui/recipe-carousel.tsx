@@ -15,7 +15,7 @@ const RecipeCarousel: React.FC<Props> = ({ data }) => {
       data={data}
       keyExtractor={(item) => item.id.toString()}
       horizontal
-      showsHorizontalScrollIndicator={true}
+      showsHorizontalScrollIndicator={false}
       snapToInterval={width * 0.8 + 16}
       decelerationRate="fast"
       contentContainerStyle={{ paddingHorizontal: 16 }}

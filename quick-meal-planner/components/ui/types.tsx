@@ -19,3 +19,11 @@ export type Recipe = {
 export type RecipeResponse = {
   recipes: Recipe[];
 };
+
+export interface LoginScreenProps {
+  onLoginSuccess: (isLoggedIn: boolean, userToken: string) => void;
+}
+
+export interface AppProps {
+  // Add other props if needed
+}
