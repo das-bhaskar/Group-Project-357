@@ -11,8 +11,11 @@ type Props = {
 };
 
 const RecipeCard: React.FC<Props> = ({ recipe, onPress }) => {
-  const totalTime =
-    recipe.prep_time_minutes + recipe.cook_time_minutes;
+  const totalTime = recipe.prep_time_minutes + recipe.cook_time_minutes;
+
+  const totalCost = recipe.ingredients.reduce((accumulator, currentItem) => {
+    return accumulator + (currentItem.cost);
+  }, 0); // 0 is the initial value
 
   const [modalVisible, setModalVisible] = useState(false);
 // move recipe modal into own file
@@ -42,9 +45,13 @@ const RecipeCard: React.FC<Props> = ({ recipe, onPress }) => {
             <Text style={styles.title}>Ingredients</Text>
             {recipe.ingredients.map((ingredient, index) => (
               <Text key={index}>
-                {ingredient.name} - {ingredient.quantity}{ingredient.unit}
+                {ingredient.name} - {ingredient.quantity}{ingredient.unit} - ${ingredient.cost}
               </Text>
-            ))}
+              
+            ))} 
+            <Text style={styles.title}>Total Cost</Text>
+            <Text>{totalCost}
+            </Text>
           </View>
         </View>
       </Pressable>

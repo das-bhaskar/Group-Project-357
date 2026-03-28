@@ -24,7 +24,7 @@ export default function ScheduleScreen() {
           style={{
             fontFamily: Fonts.rounded,
           }}>
-          Schedule
+          Groceries
         </ThemedText>
       </ThemedView>
     </ParallaxScrollView>

@@ -8,9 +8,9 @@
       "prep_time_minutes": 15,
       "cook_time_minutes": 45,
       "ingredients": [
-        { "name": "spaghetti", "quantity": 400, "unit": "g" },
-        { "name": "ground beef", "quantity": 250, "unit": "g" },
-        { "name": "tomato sauce", "quantity": 500, "unit": "ml" }
+        { "name": "spaghetti", "quantity": 400, "unit": "g", "cost": 1.50 },
+        { "name": "ground beef", "quantity": 250, "unit": "g", "cost": 4.00 },
+        { "name": "tomato sauce", "quantity": 500, "unit": "ml", "cost": 2.00 }
       ],
       "steps": [
         "Cook pasta.",
@@ -28,9 +28,9 @@
       "prep_time_minutes": 20,
       "cook_time_minutes": 40,
       "ingredients": [
-        { "name": "chicken", "quantity": 500, "unit": "g" },
-        { "name": "curry paste", "quantity": 2, "unit": "tbsp" },
-        { "name": "coconut milk", "quantity": 400, "unit": "ml" }
+        { "name": "chicken", "quantity": 500, "unit": "g", "cost": 5.00 },
+        { "name": "curry paste", "quantity": 2, "unit": "tbsp", "cost": 1.50 },
+        { "name": "coconut milk", "quantity": 400, "unit": "ml", "cost": 2.50 }
       ],
       "steps": [
         "Cook chicken.",
@@ -47,9 +47,9 @@
       "prep_time_minutes": 15,
       "cook_time_minutes": 15,
       "ingredients": [
-        { "name": "ground beef", "quantity": 300, "unit": "g" },
-        { "name": "taco shells", "quantity": 6, "unit": "units" },
-        { "name": "lettuce", "quantity": 1, "unit": "cup" }
+        { "name": "ground beef", "quantity": 300, "unit": "g", "cost": 4.50 },
+        { "name": "taco shells", "quantity": 6, "unit": "units", "cost": 2.50 },
+        { "name": "lettuce", "quantity": 1, "unit": "cup", "cost": 1.00 }
       ],
       "steps": [
         "Cook beef.",
@@ -66,9 +66,9 @@
       "prep_time_minutes": 10,
       "cook_time_minutes": 10,
       "ingredients": [
-        { "name": "mixed vegetables", "quantity": 300, "unit": "g" },
-        { "name": "soy sauce", "quantity": 2, "unit": "tbsp" },
-        { "name": "garlic", "quantity": 2, "unit": "cloves" }
+        { "name": "mixed vegetables", "quantity": 300, "unit": "g", "cost": 3.00 },
+        { "name": "soy sauce", "quantity": 2, "unit": "tbsp", "cost": 0.50 },
+        { "name": "garlic", "quantity": 2, "unit": "cloves", "cost": 0.30 }
       ],
       "steps": [
         "Heat oil.",
@@ -85,9 +85,9 @@
       "prep_time_minutes": 10,
       "cook_time_minutes": 15,
       "ingredients": [
-        { "name": "flour", "quantity": 1.5, "unit": "cups" },
-        { "name": "milk", "quantity": 1.25, "unit": "cups" },
-        { "name": "egg", "quantity": 1, "unit": "unit" }
+        { "name": "flour", "quantity": 1.5, "unit": "cups", "cost": 0.80 },
+        { "name": "milk", "quantity": 1.25, "unit": "cups", "cost": 1.00 },
+        { "name": "egg", "quantity": 1, "unit": "unit", "cost": 0.40 }
       ],
       "steps": [
         "Mix ingredients.",
@@ -104,9 +104,9 @@
       "prep_time_minutes": 5,
       "cook_time_minutes": 5,
       "ingredients": [
-        { "name": "bread", "quantity": 2, "unit": "slices" },
-        { "name": "cheese", "quantity": 2, "unit": "slices" },
-        { "name": "butter", "quantity": 1, "unit": "tbsp" }
+        { "name": "bread", "quantity": 2, "unit": "slices", "cost": 0.60 },
+        { "name": "cheese", "quantity": 2, "unit": "slices", "cost": 1.20 },
+        { "name": "butter", "quantity": 1, "unit": "tbsp", "cost": 0.50 }
       ],
       "steps": [
         "Butter bread.",
@@ -123,9 +123,9 @@
       "prep_time_minutes": 10,
       "cook_time_minutes": 0,
       "ingredients": [
-        { "name": "lettuce", "quantity": 1, "unit": "head" },
-        { "name": "croutons", "quantity": 1, "unit": "cup" },
-        { "name": "caesar dressing", "quantity": 0.5, "unit": "cup" }
+        { "name": "lettuce", "quantity": 1, "unit": "head", "cost": 2.50 },
+        { "name": "croutons", "quantity": 1, "unit": "cup", "cost": 1.50 },
+        { "name": "caesar dressing", "quantity": 0.5, "unit": "cup", "cost": 1.80 }
       ],
       "steps": [
         "Chop lettuce.",
@@ -142,9 +142,9 @@
       "prep_time_minutes": 10,
       "cook_time_minutes": 25,
       "ingredients": [
-        { "name": "tomatoes", "quantity": 500, "unit": "g" },
-        { "name": "onion", "quantity": 1, "unit": "unit" },
-        { "name": "cream", "quantity": 100, "unit": "ml" }
+        { "name": "tomatoes", "quantity": 500, "unit": "g", "cost": 2.50 },
+        { "name": "onion", "quantity": 1, "unit": "unit", "cost": 0.80 },
+        { "name": "cream", "quantity": 100, "unit": "ml", "cost": 1.50 }
       ],
       "steps": [
         "Cook vegetables.",
@@ -161,9 +161,9 @@
       "prep_time_minutes": 10,
       "cook_time_minutes": 10,
       "ingredients": [
-        { "name": "rice", "quantity": 2, "unit": "cups" },
-        { "name": "egg", "quantity": 2, "unit": "units" },
-        { "name": "soy sauce", "quantity": 2, "unit": "tbsp" }
+        { "name": "rice", "quantity": 2, "unit": "cups", "cost": 1.00 },
+        { "name": "egg", "quantity": 2, "unit": "units", "cost": 0.80 },
+        { "name": "soy sauce", "quantity": 2, "unit": "tbsp", "cost": 0.50 }
       ],
       "steps": [
         "Scramble eggs.",
@@ -180,9 +180,9 @@
       "prep_time_minutes": 20,
       "cook_time_minutes": 30,
       "ingredients": [
-        { "name": "flour", "quantity": 2, "unit": "cups" },
-        { "name": "cocoa powder", "quantity": 0.5, "unit": "cup" },
-        { "name": "sugar", "quantity": 1.5, "unit": "cups" }
+        { "name": "flour", "quantity": 2, "unit": "cups", "cost": 1.00 },
+        { "name": "cocoa powder", "quantity": 0.5, "unit": "cup", "cost": 2.50 },
+        { "name": "sugar", "quantity": 1.5, "unit": "cups", "cost": 1.20 }
       ],
       "steps": [
         "Mix ingredients.",
@@ -191,7 +191,6 @@
       ],
       "tags": ["dessert"]
     },
-
     {
       "id": 11,
       "name": "Omelette",
@@ -200,9 +199,9 @@
       "prep_time_minutes": 5,
       "cook_time_minutes": 5,
       "ingredients": [
-        { "name": "eggs", "quantity": 2, "unit": "units" },
-        { "name": "milk", "quantity": 2, "unit": "tbsp" },
-        { "name": "cheese", "quantity": 0.25, "unit": "cup" }
+        { "name": "eggs", "quantity": 2, "unit": "units", "cost": 0.80 },
+        { "name": "milk", "quantity": 2, "unit": "tbsp", "cost": 0.30 },
+        { "name": "cheese", "quantity": 0.25, "unit": "cup", "cost": 1.00 }
       ],
       "steps": [
         "Beat eggs.",
@@ -219,9 +218,9 @@
       "prep_time_minutes": 10,
       "cook_time_minutes": 10,
       "ingredients": [
-        { "name": "ground beef", "quantity": 300, "unit": "g" },
-        { "name": "buns", "quantity": 2, "unit": "units" },
-        { "name": "lettuce", "quantity": 1, "unit": "cup" }
+        { "name": "ground beef", "quantity": 300, "unit": "g", "cost": 4.50 },
+        { "name": "buns", "quantity": 2, "unit": "units", "cost": 1.50 },
+        { "name": "lettuce", "quantity": 1, "unit": "cup", "cost": 1.00 }
       ],
       "steps": [
         "Form patties.",
@@ -238,9 +237,9 @@
       "prep_time_minutes": 20,
       "cook_time_minutes": 15,
       "ingredients": [
-        { "name": "pizza dough", "quantity": 1, "unit": "unit" },
-        { "name": "tomato sauce", "quantity": 0.5, "unit": "cup" },
-        { "name": "mozzarella", "quantity": 200, "unit": "g" }
+        { "name": "pizza dough", "quantity": 1, "unit": "unit", "cost": 3.00 },
+        { "name": "tomato sauce", "quantity": 0.5, "unit": "cup", "cost": 1.00 },
+        { "name": "mozzarella", "quantity": 200, "unit": "g", "cost": 3.50 }
       ],
       "steps": [
         "Spread sauce.",
@@ -257,9 +256,9 @@
       "prep_time_minutes": 10,
       "cook_time_minutes": 0,
       "ingredients": [
-        { "name": "tomatoes", "quantity": 2, "unit": "units" },
-        { "name": "cucumber", "quantity": 1, "unit": "unit" },
-        { "name": "feta cheese", "quantity": 100, "unit": "g" }
+        { "name": "tomatoes", "quantity": 2, "unit": "units", "cost": 2.00 },
+        { "name": "cucumber", "quantity": 1, "unit": "unit", "cost": 1.50 },
+        { "name": "feta cheese", "quantity": 100, "unit": "g", "cost": 2.50 }
       ],
       "steps": [
         "Chop vegetables.",
@@ -276,9 +275,9 @@
       "prep_time_minutes": 30,
       "cook_time_minutes": 10,
       "ingredients": [
-        { "name": "sushi rice", "quantity": 2, "unit": "cups" },
-        { "name": "nori", "quantity": 4, "unit": "sheets" },
-        { "name": "fish", "quantity": 200, "unit": "g" }
+        { "name": "sushi rice", "quantity": 2, "unit": "cups", "cost": 2.00 },
+        { "name": "nori", "quantity": 4, "unit": "sheets", "cost": 2.50 },
+        { "name": "fish", "quantity": 200, "unit": "g", "cost": 6.00 }
       ],
       "steps": [
         "Prepare rice.",
@@ -295,9 +294,9 @@
       "prep_time_minutes": 10,
       "cook_time_minutes": 30,
       "ingredients": [
-        { "name": "lentils", "quantity": 1, "unit": "cup" },
-        { "name": "carrot", "quantity": 1, "unit": "unit" },
-        { "name": "onion", "quantity": 1, "unit": "unit" }
+        { "name": "lentils", "quantity": 1, "unit": "cup", "cost": 1.50 },
+        { "name": "carrot", "quantity": 1, "unit": "unit", "cost": 0.50 },
+        { "name": "onion", "quantity": 1, "unit": "unit", "cost": 0.80 }
       ],
       "steps": [
         "Cook vegetables.",
@@ -314,9 +313,9 @@
       "prep_time_minutes": 15,
       "cook_time_minutes": 15,
       "ingredients": [
-        { "name": "rice noodles", "quantity": 200, "unit": "g" },
-        { "name": "shrimp", "quantity": 150, "unit": "g" },
-        { "name": "peanuts", "quantity": 50, "unit": "g" }
+        { "name": "rice noodles", "quantity": 200, "unit": "g", "cost": 2.00 },
+        { "name": "shrimp", "quantity": 150, "unit": "g", "cost": 5.00 },
+        { "name": "peanuts", "quantity": 50, "unit": "g", "cost": 1.50 }
       ],
       "steps": [
         "Soak noodles.",
@@ -333,9 +332,9 @@
       "prep_time_minutes": 25,
       "cook_time_minutes": 45,
       "ingredients": [
-        { "name": "apples", "quantity": 4, "unit": "units" },
-        { "name": "flour", "quantity": 2, "unit": "cups" },
-        { "name": "sugar", "quantity": 1, "unit": "cup" }
+        { "name": "apples", "quantity": 4, "unit": "units", "cost": 3.00 },
+        { "name": "flour", "quantity": 2, "unit": "cups", "cost": 1.00 },
+        { "name": "sugar", "quantity": 1, "unit": "cup", "cost": 0.80 }
       ],
       "steps": [
         "Prepare crust.",
@@ -352,9 +351,9 @@
       "prep_time_minutes": 10,
       "cook_time_minutes": 0,
       "ingredients": [
-        { "name": "avocado", "quantity": 2, "unit": "units" },
-        { "name": "lime", "quantity": 1, "unit": "unit" },
-        { "name": "salt", "quantity": 0.5, "unit": "tsp" }
+        { "name": "avocado", "quantity": 2, "unit": "units", "cost": 3.50 },
+        { "name": "lime", "quantity": 1, "unit": "unit", "cost": 0.80 },
+        { "name": "salt", "quantity": 0.5, "unit": "tsp", "cost": 0.10 }
       ],
       "steps": [
         "Mash avocado.",
@@ -371,9 +370,9 @@
       "prep_time_minutes": 15,
       "cook_time_minutes": 60,
       "ingredients": [
-        { "name": "whole chicken", "quantity": 1, "unit": "unit" },
-        { "name": "salt", "quantity": 1, "unit": "tbsp" },
-        { "name": "butter", "quantity": 50, "unit": "g" }
+        { "name": "whole chicken", "quantity": 1, "unit": "unit", "cost": 10.00 },
+        { "name": "salt", "quantity": 1, "unit": "tbsp", "cost": 0.20 },
+        { "name": "butter", "quantity": 50, "unit": "g", "cost": 1.20 }
       ],
       "steps": [
         "Season chicken.",

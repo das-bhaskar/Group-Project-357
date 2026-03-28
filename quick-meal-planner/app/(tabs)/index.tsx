@@ -5,7 +5,6 @@ import { HelloWave } from '@/components/hello-wave';
 import ParallaxScrollView from '@/components/parallax-scroll-view';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
-import { Link } from 'expo-router';
 import RecipeCarousel from "@/components/ui/recipe-carousel";
 import data from "@/recipes.json";
 import { RecipeResponse } from "@/components/ui/types";
