@@ -41,3 +41,27 @@ app-example
 # generated native folders
 /ios
 /android
+
+.env
+# Python Virtual Environments
+venv/
+.venv/
+env/
+bin/
+lib/
+include/
+
+# Environment Variables (Crucial for Gemini API Key)
+.env
+
+# Python Cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# IDE settings
+.vscode/
+.idea/
+
+# OS generated files
+.DS_Store
