@@ -1,9 +1,9 @@
 # Group-Project-357
 
 - Colton Leblond - 40210640 - FrontEnd Developer
-- Bhaskar Das
 - Sara Rezene Habte
 - Nicole Antoun
+- Bhaskar Das - 40325270
 
 # Welcome to our Quick Meal app 👋
 
