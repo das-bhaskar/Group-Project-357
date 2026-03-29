@@ -31,12 +31,14 @@ export default function GroceriesScreen() {
           Groceries
         </ThemedText>
         </ThemedView>
+        <ThemedText>Ingredients</ThemedText>
         {weeklyRecipes.length === 0 ? (
           <ThemedText style={styles.meta}>No recipes added yet</ThemedText>
-        ) : (
+        ) : 
+        
+        (
           weeklyRecipes.map(recipe => (
             <ThemedView>
-            <ThemedText>Ingredients</ThemedText>
             {recipe.ingredients.map((ingredient, index) => (
               <ThemedText key={index}>
                 {ingredient.name} 
