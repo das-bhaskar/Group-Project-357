@@ -5,8 +5,12 @@ import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 import { IconSymbol } from '@/components/ui/icon-symbol';
 import { Fonts } from '@/constants/theme';
+import { useRecipeContext } from "@/components/ui/recipeContext";
 
 export default function GroceriesScreen() {
+
+  const { weeklyRecipes } = useRecipeContext();
+
   return (
     <ParallaxScrollView
       headerBackgroundColor={{ light: '#D0D0D0', dark: '#353636' }}
@@ -18,14 +22,28 @@ export default function GroceriesScreen() {
           style={styles.headerImage}
         />
       }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText
-          type="title"
+      <ThemedView style={styles.contentContainer}>
+        <ThemedView style={styles.titleContainer}>
+        <ThemedText type="title"
           style={{
             fontFamily: Fonts.rounded,
           }}>
           Groceries
         </ThemedText>
+        </ThemedView>
+        {weeklyRecipes.length === 0 ? (
+          <ThemedText style={styles.meta}>No recipes added yet</ThemedText>
+        ) : (
+          weeklyRecipes.map(recipe => (
+            <ThemedView>
+            <ThemedText>Ingredients</ThemedText>
+            {recipe.ingredients.map((ingredient, index) => (
+              <ThemedText key={index}>
+                {ingredient.name} 
+              </ThemedText> ))} 
+            </ThemedView>
+          ))
+        )}
       </ThemedView>
     </ParallaxScrollView>
   );
@@ -38,8 +56,17 @@ const styles = StyleSheet.create({
     left: -35,
     position: 'absolute',
   },
+  contentContainer: {
+    padding: 20,
+  },
   titleContainer: {
     flexDirection: 'row',
     gap: 8,
+    marginBottom: 16,
+  },
+  meta: {
+    fontSize: 14,
+    color: '#999',
+    marginBottom: 8,
   },
 });

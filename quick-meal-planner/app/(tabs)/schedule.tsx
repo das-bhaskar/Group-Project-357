@@ -5,9 +5,10 @@ import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 import { IconSymbol } from '@/components/ui/icon-symbol';
 import { Fonts } from '@/constants/theme';
-import { useRecipeContext } from '@/components/ui//types';
+import { useRecipeContext } from "@/components/ui/recipeContext";
 
 export default function ScheduleScreen() {
+  
   const { weeklyRecipes } = useRecipeContext();
 
   // Debugging: confirm structure
@@ -21,7 +22,7 @@ export default function ScheduleScreen() {
       headerImage={
         <IconSymbol
           size={310}
-          color="#808080"
+          color="#519237"
           name="chevron.left.forwardslash.chevron.right"
           style={styles.headerImage}
         />

@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import { View, Text, StyleSheet, Image, Pressable, Modal, Alert, Button } from "react-native";``
 import { Recipe } from "./types";
-import { useRecipeContext } from '@/components/ui//types';
+import { useRecipeContext } from '@/components/ui/recipeContext';
 
 
 type Props = {
@@ -13,7 +13,6 @@ type Props = {
 const RecipeCard: React.FC<Props> = ({ recipe, onPress }) => {
   const { addRecipe } = useRecipeContext();
   const totalTime = recipe.prep_time_minutes + recipe.cook_time_minutes;
-
   const totalCost = recipe.ingredients.reduce((accumulator, currentItem) => {
     return accumulator + (currentItem.cost);
   }, 0); // 0 is the initial value
@@ -21,6 +20,9 @@ const RecipeCard: React.FC<Props> = ({ recipe, onPress }) => {
   const handleSelectRecipe = (recipe: any) => {
     addRecipe(recipe);
   };
+
+// Need to find a way to do variable images 
+const sourceImage = require('@/assets/images/recipeImages/' + "spaghetti-bolognese.webp");
 
   const [modalVisible, setModalVisible] = useState(false);
 // move recipe modal into own file
@@ -38,7 +40,7 @@ const RecipeCard: React.FC<Props> = ({ recipe, onPress }) => {
         <View>
           <View style={styles.modalView}>
               <Text style={styles.title}>{recipe.name}</Text>
-              <Image style={{ width: 250, height: 250 }}  source={require('@/assets/images/recipeImages/spaghetti-bolognese.webp') } ></Image>
+              <Image style={{ width: 250, height: 250 }}  source={sourceImage } ></Image>
               <View style={styles.container}>
                 <Text style={styles.subtext}>⏱ {totalTime} min</Text>
                 <Text style={styles.subtext}>🍽 {recipe.servings}</Text>

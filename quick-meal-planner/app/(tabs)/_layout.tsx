@@ -5,7 +5,7 @@ import { HapticTab } from '@/components/haptic-tab';
 import { IconSymbol } from '@/components/ui/icon-symbol';
 import { Colors } from '@/constants/theme';
 import { useColorScheme } from '@/hooks/use-color-scheme';
-import { RecipeProvider } from "@/components/ui/types";
+import { RecipeProvider } from "@/components/ui/recipeContext";
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
@@ -16,43 +16,44 @@ export default function TabLayout() {
 
   return (
     <RecipeProvider>
-    <SafeAreaProvider>
-    <Tabs
-      screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
-        headerShown: false,
-        tabBarButton: HapticTab,
-      }}>
-      <Tabs.Screen
-        name="index"
-        options={{
-          title: 'Home',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="house.fill" color={color} />,
-        }}
-      />
-      <Tabs.Screen
-        name="groceries"
-        options={{
-          title: 'Groceries',
-          tabBarIcon: ({ color }) => <MaterialIcons name="local-grocery-store" size={28} color={color} />,
-        }}
-      />
-      <Tabs.Screen
-        name="schedule"
-        options={{
-          title: 'Schedule',
-          tabBarIcon: ({ color }) => <FontAwesome name="calendar" size={28} color={color} />,
-        }}
-      />
-      <Tabs.Screen
-        name="profile"
-        options={{
-          title: 'Profile',
-          tabBarIcon: ({ color }) => <MaterialIcons name="person" size={28} color={color} />,
-        }}
-      />
-    </Tabs>
-    </SafeAreaProvider>
+      <SafeAreaProvider>
+        <Tabs
+          screenOptions={{
+            tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
+            headerShown: false,
+            tabBarButton: HapticTab,
+          }}>
+          <Tabs.Screen
+            name="index"
+            options={{
+              title: 'Home',
+              tabBarIcon: ({ color }) => <IconSymbol size={28} name="house.fill" color={color} />,
+            }}
+          />
+          <Tabs.Screen
+            name="groceries"
+            options={{
+              title: 'Groceries',
+              tabBarIcon: ({ color }) => <MaterialIcons name="local-grocery-store" size={28} color={color} />,
+            }}
+          />
+          <Tabs.Screen
+            name="schedule"
+            options={{
+              title: 'Schedule',
+              tabBarIcon: ({ color }) => <FontAwesome name="calendar" size={28} color={color} />,
+            }}
+          />
+          <Tabs.Screen
+            name="profile"
+            options={{
+              title: 'Profile',
+              tabBarIcon: ({ color }) => <MaterialIcons name="person" size={28} color={color} />,
+            }}
+          />
+        </Tabs>
+        </SafeAreaProvider>
     </RecipeProvider>
+
   );
 }
