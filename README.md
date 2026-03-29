@@ -54,11 +54,11 @@ When calling the API from a physical device or an Android Emulator, **do not use
 Retrieves the full list of available recipes. Use this to populate a "Browse" or "All Recipes" screen.
 * **Returns:** An array of recipe objects.
 
-````markdown
+
 #### **[POST] /recommend**
 The AI-driven search. Send a natural language string of ingredients, and it returns the single best match.
 
-**Body:**
+
 ```json
 {
   "ingredients": "I have some flour, milk, and eggs"
