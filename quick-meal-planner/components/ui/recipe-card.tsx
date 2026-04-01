@@ -96,8 +96,10 @@ export default RecipeCard;
 
 const styles = StyleSheet.create({
   card: {
-    backgroundColor: "#fff",
-    borderRadius: 16,
+    borderWidth: 0.2,
+    backgroundColor: "#f6f6f6",
+    borderRadius: 10,
+    borderColor: "#2e2c2c",
     padding: 16,
     marginVertical: 10,
   },
@@ -112,6 +114,7 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   metaRow: {
+
     flexDirection: "row",
     justifyContent: "space-between",
     marginBottom: 8,

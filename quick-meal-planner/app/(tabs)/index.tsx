@@ -1,5 +1,5 @@
 import { Image } from 'expo-image';
-import { Platform, StyleSheet } from 'react-native';
+import { FlatList, Platform, StyleSheet } from 'react-native';
 
 import { HelloWave } from '@/components/hello-wave';
 import ParallaxScrollView from '@/components/parallax-scroll-view';
@@ -8,11 +8,17 @@ import { ThemedView } from '@/components/themed-view';
 import RecipeCarousel from "@/components/ui/recipe-carousel";
 import data from "@/recipes.json";
 import { RecipeResponse } from "@/components/ui/types";
+import groupByCuisine from '../utils/groupByCuisine';
+
 
 const recipes = (data as RecipeResponse).recipes;
 
 
 export default function HomeScreen() {
+
+  const grouped = groupByCuisine(recipes);
+  const cuisines = Object.keys(grouped);
+
   return (
     <ParallaxScrollView
       headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
@@ -26,7 +32,13 @@ export default function HomeScreen() {
         <ThemedText type="title">Welcome to Quick Meal Planner!</ThemedText>
         <HelloWave />
       </ThemedView>
-      <RecipeCarousel data={recipes} />;
+      <FlatList<string>
+        data={cuisines}
+        keyExtractor={(item) => item}
+        renderItem={({ item }) => (
+          <RecipeCarousel title={item} data={grouped[item]} />
+        )}
+      />
     </ParallaxScrollView>
   );
 }

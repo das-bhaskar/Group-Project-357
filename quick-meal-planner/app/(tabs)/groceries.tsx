@@ -40,7 +40,7 @@ export default function GroceriesScreen() {
           weeklyRecipes.map(recipe => (
             <ThemedView>
             {recipe.ingredients.map((ingredient, index) => (
-              <ThemedText key={index}>
+              <ThemedText style={styles.meta} key={index}>
                 {ingredient.name} 
               </ThemedText> ))} 
             </ThemedView>
