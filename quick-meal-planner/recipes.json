@@ -7,6 +7,7 @@
       "servings": 4,
       "prep_time_minutes": 15,
       "cook_time_minutes": 45,
+      "image": "@/assets/images/recipeImages/spaghetti-bolognese.webp",
       "ingredients": [
         { "name": "spaghetti", "quantity": 400, "unit": "g", "cost": 1.50 },
         { "name": "ground beef", "quantity": 250, "unit": "g", "cost": 4.00 },
@@ -27,6 +28,7 @@
       "servings": 4,
       "prep_time_minutes": 20,
       "cook_time_minutes": 40,
+      "image": "@/assets/images/recipeImages/curry.png",
       "ingredients": [
         { "name": "chicken", "quantity": 500, "unit": "g", "cost": 5.00 },
         { "name": "curry paste", "quantity": 2, "unit": "tbsp", "cost": 1.50 },
@@ -46,6 +48,7 @@
       "servings": 3,
       "prep_time_minutes": 15,
       "cook_time_minutes": 15,
+      "image": "@/assets/images/recipeImages/tacos.png",
       "ingredients": [
         { "name": "ground beef", "quantity": 300, "unit": "g", "cost": 4.50 },
         { "name": "taco shells", "quantity": 6, "unit": "units", "cost": 2.50 },
@@ -65,6 +68,7 @@
       "servings": 2,
       "prep_time_minutes": 10,
       "cook_time_minutes": 10,
+      "image": "@/assets/images/recipeImages/vegetables.png",
       "ingredients": [
         { "name": "mixed vegetables", "quantity": 300, "unit": "g", "cost": 3.00 },
         { "name": "soy sauce", "quantity": 2, "unit": "tbsp", "cost": 0.50 },
@@ -84,6 +88,7 @@
       "servings": 4,
       "prep_time_minutes": 10,
       "cook_time_minutes": 15,
+      "image": "@/assets/images/recipeImages/pancakes.jpg",
       "ingredients": [
         { "name": "flour", "quantity": 1.5, "unit": "cups", "cost": 0.80 },
         { "name": "milk", "quantity": 1.25, "unit": "cups", "cost": 1.00 },
@@ -99,6 +104,7 @@
     {
       "id": 6,
       "name": "Grilled Cheese Sandwich",
+      "image": "@/assets/images/recipeImages/grilled.png",
       "cuisine": "American",
       "servings": 1,
       "prep_time_minutes": 5,
@@ -122,6 +128,7 @@
       "servings": 2,
       "prep_time_minutes": 10,
       "cook_time_minutes": 0,
+      "image": "@/assets/images/recipeImages/salad.png",
       "ingredients": [
         { "name": "lettuce", "quantity": 1, "unit": "head", "cost": 2.50 },
         { "name": "croutons", "quantity": 1, "unit": "cup", "cost": 1.50 },
@@ -141,6 +148,7 @@
       "servings": 3,
       "prep_time_minutes": 10,
       "cook_time_minutes": 25,
+      "image": "@/assets/images/recipeImages/soup.png",
       "ingredients": [
         { "name": "tomatoes", "quantity": 500, "unit": "g", "cost": 2.50 },
         { "name": "onion", "quantity": 1, "unit": "unit", "cost": 0.80 },
@@ -160,6 +168,7 @@
       "servings": 3,
       "prep_time_minutes": 10,
       "cook_time_minutes": 10,
+      "image": "@/assets/images/recipeImages/rice.png",
       "ingredients": [
         { "name": "rice", "quantity": 2, "unit": "cups", "cost": 1.00 },
         { "name": "egg", "quantity": 2, "unit": "units", "cost": 0.80 },
@@ -179,6 +188,7 @@
       "servings": 8,
       "prep_time_minutes": 20,
       "cook_time_minutes": 30,
+      "image": "@/assets/images/recipeImages/cake.png",
       "ingredients": [
         { "name": "flour", "quantity": 2, "unit": "cups", "cost": 1.00 },
         { "name": "cocoa powder", "quantity": 0.5, "unit": "cup", "cost": 2.50 },
@@ -198,6 +208,7 @@
       "servings": 1,
       "prep_time_minutes": 5,
       "cook_time_minutes": 5,
+      "image": "@/assets/images/recipeImages/omelette.png",
       "ingredients": [
         { "name": "eggs", "quantity": 2, "unit": "units", "cost": 0.80 },
         { "name": "milk", "quantity": 2, "unit": "tbsp", "cost": 0.30 },
@@ -217,6 +228,7 @@
       "servings": 2,
       "prep_time_minutes": 10,
       "cook_time_minutes": 10,
+      "image": "@/assets/images/recipeImages/burger.png",
       "ingredients": [
         { "name": "ground beef", "quantity": 300, "unit": "g", "cost": 4.50 },
         { "name": "buns", "quantity": 2, "unit": "units", "cost": 1.50 },
@@ -236,6 +248,7 @@
       "servings": 2,
       "prep_time_minutes": 20,
       "cook_time_minutes": 15,
+      "image": "@/assets/images/recipeImages/pizza.png",
       "ingredients": [
         { "name": "pizza dough", "quantity": 1, "unit": "unit", "cost": 3.00 },
         { "name": "tomato sauce", "quantity": 0.5, "unit": "cup", "cost": 1.00 },
@@ -255,6 +268,7 @@
       "servings": 2,
       "prep_time_minutes": 10,
       "cook_time_minutes": 0,
+      "image": "@/assets/images/recipeImages/greek.png",
       "ingredients": [
         { "name": "tomatoes", "quantity": 2, "unit": "units", "cost": 2.00 },
         { "name": "cucumber", "quantity": 1, "unit": "unit", "cost": 1.50 },
@@ -274,6 +288,7 @@
       "servings": 2,
       "prep_time_minutes": 30,
       "cook_time_minutes": 10,
+      "image": "@/assets/images/recipeImages/sushi.png",
       "ingredients": [
         { "name": "sushi rice", "quantity": 2, "unit": "cups", "cost": 2.00 },
         { "name": "nori", "quantity": 4, "unit": "sheets", "cost": 2.50 },
@@ -293,6 +308,7 @@
       "servings": 4,
       "prep_time_minutes": 10,
       "cook_time_minutes": 30,
+      "image": "@/assets/images/recipeImages/lentil.png",
       "ingredients": [
         { "name": "lentils", "quantity": 1, "unit": "cup", "cost": 1.50 },
         { "name": "carrot", "quantity": 1, "unit": "unit", "cost": 0.50 },
@@ -312,6 +328,7 @@
       "servings": 2,
       "prep_time_minutes": 15,
       "cook_time_minutes": 15,
+      "image": "@/assets/images/recipeImages/thai.png",
       "ingredients": [
         { "name": "rice noodles", "quantity": 200, "unit": "g", "cost": 2.00 },
         { "name": "shrimp", "quantity": 150, "unit": "g", "cost": 5.00 },
@@ -331,6 +348,7 @@
       "servings": 6,
       "prep_time_minutes": 25,
       "cook_time_minutes": 45,
+      "image": "@/assets/images/recipeImages/pie.png",
       "ingredients": [
         { "name": "apples", "quantity": 4, "unit": "units", "cost": 3.00 },
         { "name": "flour", "quantity": 2, "unit": "cups", "cost": 1.00 },
@@ -350,6 +368,7 @@
       "servings": 2,
       "prep_time_minutes": 10,
       "cook_time_minutes": 0,
+      "image": "@/assets/images/recipeImages/guac.png",
       "ingredients": [
         { "name": "avocado", "quantity": 2, "unit": "units", "cost": 3.50 },
         { "name": "lime", "quantity": 1, "unit": "unit", "cost": 0.80 },
@@ -369,6 +388,7 @@
       "servings": 4,
       "prep_time_minutes": 15,
       "cook_time_minutes": 60,
+      "image": "@/assets/images/recipeImages/chicken.png",
       "ingredients": [
         { "name": "whole chicken", "quantity": 1, "unit": "unit", "cost": 10.00 },
         { "name": "salt", "quantity": 1, "unit": "tbsp", "cost": 0.20 },

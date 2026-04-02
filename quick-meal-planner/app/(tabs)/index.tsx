@@ -1,7 +1,5 @@
 import { Image } from 'expo-image';
-import { FlatList, Platform, StyleSheet } from 'react-native';
-
-import { HelloWave } from '@/components/hello-wave';
+import { StyleSheet, View } from 'react-native';
 import ParallaxScrollView from '@/components/parallax-scroll-view';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
@@ -9,55 +7,67 @@ import RecipeCarousel from "@/components/ui/recipe-carousel";
 import data from "@/recipes.json";
 import { RecipeResponse } from "@/components/ui/types";
 import groupByCuisine from '../utils/groupByCuisine';
+import { useState } from "react";
+import Filters, { Filters as FilterType } from "@/components/ui/filters";
 
 
 const recipes = (data as RecipeResponse).recipes;
+const HEADER_HEIGHT = 200; 
+
 
 
 export default function HomeScreen() {
 
-  const grouped = groupByCuisine(recipes);
+const [filters, setFilters] = useState<FilterType>({});
+
+const filtered = recipes.filter((recipe) => {
+  const totalTime = recipe.prep_time_minutes + recipe.cook_time_minutes;
+  const totalCost = recipe.ingredients.reduce((sum, i) => sum + i.cost, 0);
+
+  if (filters.mealType && !recipe.tags.includes(filters.mealType)) return false;
+  if (filters.maxTime && totalTime > filters.maxTime) return false;
+  if (filters.maxCost && totalCost > filters.maxCost) return false;
+
+  return true;
+});
+
+const grouped = groupByCuisine(filtered);
   const cuisines = Object.keys(grouped);
 
   return (
     <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
+      headerBackgroundColor={{ light: 'transparent', dark: 'transparent' }}
       headerImage={
         <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
+          source={require('@/assets/images/quick-meal-header.png')} 
+          style={styles.headerImage}
         />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome to Quick Meal Planner!</ThemedText>
-        <HelloWave />
+      }
+    >
+      <ThemedView style={{ paddingTop: 16, paddingHorizontal: 8 }}>
+        <ThemedText type="title" style={{ marginBottom: 8 }}>
+          Quick Meal Planner
+        </ThemedText>
+        <ThemedText style={{ fontSize: 15, color: '#7A8A85', marginBottom: 16 }}>
+          Browse recipes by cuisine and plan your week.
+        </ThemedText>
+
+        {/* Filters UI */}
+        <Filters onChange={setFilters} />
+
+        {cuisines.map((item) => (
+          <RecipeCarousel key={item} title={item} data={grouped[item]} />
+        ))}
       </ThemedView>
-      <FlatList<string>
-        data={cuisines}
-        keyExtractor={(item) => item}
-        renderItem={({ item }) => (
-          <RecipeCarousel title={item} data={grouped[item]} />
-        )}
-      />
     </ParallaxScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-  },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
-  },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
+  headerImage: {
+    height: HEADER_HEIGHT,
+    width: '100%',
+    resizeMode: 'cover', 
+    alignSelf: 'center',
   },
 });
