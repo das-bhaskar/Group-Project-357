@@ -1,162 +1,250 @@
-// RecipeCard 
 import React, { useState } from "react";
-import { View, Text, StyleSheet, Image, Pressable, Modal, Alert, Button } from "react-native";``
+import {
+  View, Text, StyleSheet, Image, Pressable, Modal,
+  ScrollView, TouchableOpacity,
+} from "react-native";
 import { Recipe } from "./types";
-import { useRecipeContext } from '@/components/ui/recipeContext';
+import { useRecipeContext } from "@/components/ui/recipeContext";
+import { recipeImages } from "@/app/utils/recipeImages";
 
+type Props = { recipe: Recipe };
 
-type Props = {
-  recipe: Recipe;
-  onPress?: () => void;
-};
-
-const RecipeCard: React.FC<Props> = ({ recipe, onPress }) => {
+const RecipeCard: React.FC<Props> = ({ recipe }) => {
   const { addRecipe } = useRecipeContext();
-  const totalTime = recipe.prep_time_minutes + recipe.cook_time_minutes;
-  const totalCost = recipe.ingredients.reduce((accumulator, currentItem) => {
-    return accumulator + (currentItem.cost);
-  }, 0); // 0 is the initial value
-
-  const handleSelectRecipe = (recipe: any) => {
-    addRecipe(recipe);
-  };
-
-// Need to find a way to do variable images 
-const sourceImage = require('@/assets/images/recipeImages/' + "spaghetti-bolognese.webp");
-
   const [modalVisible, setModalVisible] = useState(false);
-// move recipe modal into own file
+  const [confirmVisible, setConfirmVisible] = useState(false);
+
+
+  const totalTime = recipe.prep_time_minutes + recipe.cook_time_minutes;
+  const totalCost = recipe.ingredients.reduce((sum, i) => sum + i.cost, 0);
+  const sourceImage = recipeImages[recipe.image];
+
   return (
     <>
-      <Modal
-        animationType='slide'
-        visible={modalVisible}
-        onRequestClose={() => {
-          Alert.alert("Recipe closed")
-          setModalVisible(!modalVisible);
-        }}
+      {/* ---- Card ---- */}
+      <Pressable
+        style={({ pressed }) => [styles.card, pressed && { opacity: 0.85 }]}
+        onPress={() => setModalVisible(true)}
       >
-      <Pressable onPress={() => setModalVisible(!modalVisible)} style={styles.centeredView}>
-        <View>
-          <View style={styles.modalView}>
-              <Text style={styles.title}>{recipe.name}</Text>
-              <Image style={{ width: 250, height: 250 }}  source={sourceImage } ></Image>
-              <View style={styles.container}>
-                <Text style={styles.subtext}>⏱ {totalTime} min</Text>
-                <Text style={styles.subtext}>🍽 {recipe.servings}</Text>
-              </View>
-              {recipe.steps.map((step, index) => (
-                <Text key={index}>
-                  {index + 1}.{step}
-                </Text>
-              ))}
-            <Text style={styles.title}>Ingredients</Text>
-            {recipe.ingredients.map((ingredient, index) => (
-              <Text key={index}>
-                {ingredient.name} - {ingredient.quantity}{ingredient.unit} - ${ingredient.cost}
-              </Text>
-              
-            ))} 
-            <Text style={styles.title}>Total Cost</Text>
-            <Text>{totalCost}
-            </Text>
-            <View style={styles.container}>
-              <Button
-                title="Add to Schedule"
-                onPress={() =>handleSelectRecipe(recipe)}
-                color="#329863" 
-              />
+        <Text style={styles.cardTitle}>{recipe.name}</Text>
+        <Text style={styles.cardCuisine}>{recipe.cuisine}</Text>
+  
+        <View style={styles.row}>
+          <Text style={styles.chip}>⏱ {totalTime} min</Text>
+          <Text style={styles.chip}>🍽 {recipe.servings} servings</Text>
+        </View>
+  
+        <View style={styles.row}>
+          {recipe.tags.slice(0, 2).map((tag) => (
+            <Text key={tag} style={styles.tag}>#{tag}</Text>
+          ))}
+        </View>
+      </Pressable>
+  
+      {/* ---- Detail Modal ---- */}
+      <Modal
+        animationType="slide"
+        presentationStyle="pageSheet"
+        visible={modalVisible}
+        onRequestClose={() => setModalVisible(false)}
+      >
+        <ScrollView contentContainerStyle={styles.modalContent}>
+          {/* Close */}
+          <Pressable onPress={() => setModalVisible(false)} style={styles.closeBtn}>
+            <Text style={styles.closeBtnText}>✕</Text>
+          </Pressable>
+  
+          <Image source={sourceImage} style={styles.modalImage} />
+          <Text style={styles.modalTitle}>{recipe.name}</Text>
+  
+          {/* Quick stats */}
+          <View style={styles.statsRow}>
+            <View style={styles.stat}>
+              <Text style={styles.statValue}>{totalTime}</Text>
+              <Text style={styles.statLabel}>min</Text>
+            </View>
+            <View style={styles.divider} />
+            <View style={styles.stat}>
+              <Text style={styles.statValue}>{recipe.servings}</Text>
+              <Text style={styles.statLabel}>servings</Text>
+            </View>
+            <View style={styles.divider} />
+            <View style={styles.stat}>
+              <Text style={styles.statValue}>${totalCost.toFixed(2)}</Text>
+              <Text style={styles.statLabel}>total</Text>
             </View>
           </View>
-        </View>
-      </Pressable>
-      </Modal>
-      <Pressable style={styles.card} onPress={() => setModalVisible(true)}>
-        <View style={styles.content}>
-          <Text style={styles.title}>{recipe.name}</Text>
-          <Text style={styles.subtitle}>{recipe.cuisine}</Text>
-          <View style={styles.metaRow}>
-            <Text style={styles.meta}>⏱ {totalTime} min</Text>
-            <Text style={styles.meta}>🍽 {recipe.servings}</Text>
-          </View>
-          <View style={styles.tags}>
-            {recipe.tags.slice(0, 2).map((tag) => (
-              <Text key={tag} style={styles.tag}>
-                #{tag}
+  
+          {/* Steps */}
+          <Text style={styles.sectionTitle}>Steps</Text>
+          {recipe.steps.map((step, i) => (
+            <View key={i} style={styles.stepRow}>
+              <View style={styles.stepBadge}>
+                <Text style={styles.stepBadgeText}>{i + 1}</Text>
+              </View>
+              <Text style={styles.stepText}>{step}</Text>
+            </View>
+          ))}
+  
+          {/* Ingredients */}
+          <Text style={styles.sectionTitle}>Ingredients</Text>
+          {recipe.ingredients.map((ing, i) => (
+            <View key={i} style={styles.ingredientRow}>
+              <Text style={styles.ingredientName}>{ing.name}</Text>
+              <Text style={styles.ingredientDetail}>
+                {ing.quantity}{ing.unit} · ${ing.cost.toFixed(2)}
               </Text>
-            ))}
+            </View>
+          ))}
+  
+          {/* CTA */}
+          <TouchableOpacity
+            style={styles.addButton}
+            activeOpacity={0.8}
+            onPress={() => {
+              addRecipe(recipe);
+              setModalVisible(false);
+              setConfirmVisible(true);
+            }}
+          >
+            <Text style={styles.addButtonText}>Add to Schedule</Text>
+          </TouchableOpacity>
+        </ScrollView>
+      </Modal>
+  
+      {/* ---- Confirmation Popup ---- */}
+      <Modal
+        transparent
+        animationType="fade"
+        visible={confirmVisible}
+        onRequestClose={() => setConfirmVisible(false)}
+      >
+        <View style={styles.confirmOverlay}>
+          <View style={styles.confirmBox}>
+            <Text style={styles.confirmText}>Added to your schedule!</Text>
+  
+            <Pressable
+              style={styles.confirmButton}
+              onPress={() => setConfirmVisible(false)}
+            >
+              <Text style={styles.confirmButtonText}>OK</Text>
+            </Pressable>
           </View>
         </View>
-      </Pressable>
-      </>
+      </Modal>
+    </>
   );
 };
-
+  
 export default RecipeCard;
 
+const BRAND = "#2E8B63";
+
 const styles = StyleSheet.create({
+  /* Card */
   card: {
-    borderWidth: 0.2,
-    backgroundColor: "#f6f6f6",
-    borderRadius: 10,
-    borderColor: "#2e2c2c",
+    backgroundColor: "#fff",
+    borderRadius: 14,
     padding: 16,
-    marginVertical: 10,
+    marginVertical: 6,
+    shadowColor: "#000",
+    shadowOpacity: 0.06,
+    shadowOffset: { width: 0, height: 2 },
+    shadowRadius: 8,
+    elevation: 2,
   },
-  content: {},
-  title: {
-    fontSize: 18,
+  cardTitle: { fontSize: 16, fontWeight: "700", color: "#1A1A1A" },
+  cardCuisine: { fontSize: 13, color: "#999", marginTop: 2, marginBottom: 10 },
+  row: { flexDirection: "row", gap: 8, marginTop: 4 },
+  chip: {
+    fontSize: 12, color: "#555", backgroundColor: "#F2F2F2",
+    paddingHorizontal: 8, paddingVertical: 3, borderRadius: 6, overflow: "hidden",
+  },
+  tag: { fontSize: 12, color: BRAND },
+
+  /* Modal */
+  modalContent: { padding: 24, paddingTop: 16, paddingBottom: 60 },
+  closeBtn: {
+    alignSelf: "flex-end", width: 36, height: 36, borderRadius: 18,
+    backgroundColor: "#F2F2F2", alignItems: "center", justifyContent: "center",
+  },
+  closeBtnText: { fontSize: 16, color: "#666" },
+  modalImage: {
+    width: "100%", height: 220, borderRadius: 16, marginTop: 12, marginBottom: 16,
+  },
+  modalTitle: { fontSize: 24, fontWeight: "700", color: "#1A1A1A", marginBottom: 16 },
+
+  /* Stats */
+  statsRow: {
+    flexDirection: "row", backgroundColor: "#F8FAF9", borderRadius: 12,
+    padding: 16, justifyContent: "space-around", marginBottom: 24,
+  },
+  stat: { alignItems: "center" },
+  statValue: { fontSize: 18, fontWeight: "700", color: "#1A1A1A" },
+  statLabel: { fontSize: 12, color: "#999", marginTop: 2 },
+  divider: { width: 1, backgroundColor: "#E5E5E5" },
+
+  /* Steps */
+  sectionTitle: { fontSize: 18, fontWeight: "700", color: "#1A1A1A", marginBottom: 12 },
+  stepRow: { flexDirection: "row", alignItems: "flex-start", marginBottom: 12 },
+  stepBadge: {
+    width: 26, height: 26, borderRadius: 13, backgroundColor: BRAND,
+    alignItems: "center", justifyContent: "center", marginRight: 12, marginTop: 2,
+  },
+  stepBadgeText: { color: "#fff", fontSize: 13, fontWeight: "700" },
+  stepText: { flex: 1, fontSize: 15, color: "#333", lineHeight: 22 },
+
+  /* Ingredients */
+  ingredientRow: {
+    flexDirection: "row", justifyContent: "space-between",
+    paddingVertical: 10, borderBottomWidth: 1, borderBottomColor: "#F0F0F0",
+  },
+  ingredientName: { fontSize: 15, color: "#1A1A1A" },
+  ingredientDetail: { fontSize: 14, color: "#999" },
+
+  /* CTA */
+  addButton: {
+    backgroundColor: BRAND, borderRadius: 14, paddingVertical: 16,
+    alignItems: "center", marginTop: 32,
+  },
+  addButtonText: { color: "#fff", fontSize: 16, fontWeight: "700" },
+  confirmOverlay: {
+    flex: 1,
+    backgroundColor: "rgba(0,0,0,0.4)",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  
+  confirmBox: {
+    backgroundColor: "#fff",
+    padding: 24,
+    borderRadius: 14,
+    width: "75%",
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOpacity: 0.15,
+    shadowRadius: 10,
+    elevation: 5,
+  },
+  
+  confirmText: {
+    fontSize: 16,
+    fontWeight: "600",
+    marginBottom: 16,
+    color: "#1A1A1A",
+  },
+  
+  confirmButton: {
+    backgroundColor: BRAND,
+    paddingVertical: 10,
+    paddingHorizontal: 24,
+    borderRadius: 10,
+  },
+  
+  confirmButtonText: {
+    color: "#fff",
+    fontSize: 15,
     fontWeight: "600",
   },
-  subtitle: {
-    fontSize: 14,
-    color: "#666",
-    marginBottom: 8,
-  },
-  metaRow: {
-
-    flexDirection: "row",
-    justifyContent: "space-between",
-    marginBottom: 8,
-  },
-  meta: {
-    fontSize: 12,
-    color: "#999",
-  },
-  subtext: {
-    margin: 5
-  },
-  tags: {
-    flexDirection: "row",
-    gap: 8,
-  },
-  tag: {
-    fontSize: 12,
-    color: "#007AFF",
-  },
-  centeredView: {
-    flex:1,
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-  modalView: {
-    margin: 20,
-    backgroundColor: 'white',
-    borderRadius: 20,
-    padding: 35,
-    alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5
-  },
-  container: {
-    flexDirection: 'row', // Aligns children horizontally
-    justifyContent: 'space-between', // Distributes available space between the two texts
-    padding: 10,
-  },
+  
 });
