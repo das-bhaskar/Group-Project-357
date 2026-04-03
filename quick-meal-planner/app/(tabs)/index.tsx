@@ -5,20 +5,25 @@ import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 import RecipeCarousel from "@/components/ui/recipe-carousel";
 import data from "@/recipes.json";
-import { RecipeResponse } from "@/components/ui/types";
 import groupByCuisine from '../utils/groupByCuisine';
 import { useState } from "react";
 import Filters, { Filters as FilterType } from "@/components/ui/filters";
+import { useRecipes } from "@/hooks/userRecipes";
 
-
-const recipes = (data as RecipeResponse).recipes;
 const HEADER_HEIGHT = 200; 
 
 
 
 export default function HomeScreen() {
 
-const [filters, setFilters] = useState<FilterType>({});
+  const {
+    recipes,
+    recommendation,
+    getRecommendation,
+    recommendationLoading,
+  } = useRecipes();
+
+  const [filters, setFilters] = useState<FilterType>({});
 
 const filtered = recipes.filter((recipe) => {
   const totalTime = recipe.prep_time_minutes + recipe.cook_time_minutes;

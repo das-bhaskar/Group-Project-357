@@ -18,7 +18,7 @@ export type Recipe = {
   tags: string[];
 };
 
-export type RecipeResponse = {
+export type RecipesApiResponse = {
   recipes: Recipe[];
 };
 
