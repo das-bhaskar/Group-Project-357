@@ -1,24 +1,44 @@
 import React, { useEffect, useState } from 'react';
-import { Pressable, StyleSheet } from 'react-native';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
 import ParallaxScrollView from '@/components/parallax-scroll-view';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
-import { IconSymbol } from '@/components/ui/icon-symbol';
 import { Fonts } from '@/constants/theme';
 import { useRecipeContext } from '@/components/ui/recipeContext';
-import { Text, View } from 'react-native';
 
 export default function ScheduleScreen() {
-const { weeklyRecipes, removeRecipeFromSchedule } = useRecipeContext();
-const [selectedDay, setSelectedDay] = useState<string | null>(null);
+  const { weeklyRecipes, removeRecipeFromSchedule } = useRecipeContext();
+  const [selectedDay, setSelectedDay] = useState<string | null>(null);
 
-  const days = ['Saturday','Sunday','Monday','Tuesday','Wednesday','Thursday','Friday',];
-  // Debugging: confirm structure
+  const days = [
+    'Saturday',
+    'Sunday',
+    'Monday',
+    'Tuesday',
+    'Wednesday',
+    'Thursday',
+    'Friday',
+  ];
+
+  // Unique color for each day
+const dayColors: Record<string, string> = {
+  Saturday:   '#D8EED1', // light herb green
+  Sunday:     '#C7E8C1', // soft mint green
+  Monday:     '#B5E0B0', // muted fresh green
+  Tuesday:    '#A3D89F', // natural leafy green
+  Wednesday:  '#92D08F', // mid-tone garden green
+  Thursday:   '#7FC87D', // warm plant green
+  Friday:     '#6BBF6A', // deeper botanical green
+};
+
+
   useEffect(() => {
-    console.log("Weekly recipes in ScheduleScreen:", weeklyRecipes);
+    console.log('Weekly recipes in ScheduleScreen:', weeklyRecipes);
   }, [weeklyRecipes]);
 
-const handleDayPress = (day: string) => {setSelectedDay((current) => (current === day ? null : day));};
+  const handleDayPress = (day: string) => {
+    setSelectedDay((current) => (current === day ? null : day));
+  };
 
   return (
     <ParallaxScrollView
@@ -27,7 +47,9 @@ const handleDayPress = (day: string) => {setSelectedDay((current) => (current ==
     >
       <ThemedView style={[styles.contentContainer, { backgroundColor: 'transparent' }]}>
         <ThemedView style={styles.titleContainer}>
-         <ThemedText type="title" style={{ fontFamily: Fonts.rounded }}>📅 Schedule</ThemedText>
+          <ThemedText type="title" style={{ fontFamily: Fonts.rounded }}>
+            📅 Schedule
+          </ThemedText>
         </ThemedView>
 
         {days.map((day, index) => {
@@ -35,60 +57,69 @@ const handleDayPress = (day: string) => {setSelectedDay((current) => (current ==
           const isOpen = selectedDay === day;
 
           return (
-            <Pressable key={day} onPress={() => handleDayPress(day)} style={styles.dayCard}>
-              <View style={styles.dayCardRow}>
-  <View style={styles.dayIndicator} />
-  
-  <View style={{ flex: 1 }}>
-  </View>
-</View>
-             <View style={styles.dayHeader}>
-                <Text style={styles.dayTitle}>{day}</Text>
-                <ThemedText style={styles.tapText}>
-                  {isOpen ? 'Hide' : 'View'}
-                </ThemedText>
+            <Pressable
+              key={day}
+              onPress={() => handleDayPress(day)}
+              style={[
+                styles.dayCard,
+                { borderLeftColor: dayColors[day], borderLeftWidth: 5 },
+              ]}
+            >
+              <View style={styles.dayHeaderRow}>
+                <View
+                  style={[
+                    styles.dayIndicator,
+                    { backgroundColor: dayColors[day] },
+                  ]}
+                />
+
+                <View style={{ flex: 1 }}>
+                  <Text style={styles.dayTitle}>{day}</Text>
+
+                  {recipe ? (
+                    <>
+                      <Text style={styles.recipeName}>{recipe.name}</Text>
+                      <Text style={styles.metaText}>
+                        {recipe.cuisine} •{' '}
+                        {recipe.prep_time_minutes + recipe.cook_time_minutes} min
+                      </Text>
+                    </>
+                  ) : (
+                    <Text style={styles.emptyText}>No meal planned</Text>
+                  )}
                 </View>
 
-              {recipe ? (
-                <>
-<Text style={styles.recipeText}>{recipe.name}</Text>
-<Text style={styles.metaText}>
-  {recipe.cuisine} • {recipe.prep_time_minutes + recipe.cook_time_minutes} min
-</Text>
-             {isOpen && recipe && (
-  <View style={styles.detailsContainer}>
-    <Text style={styles.detailText}>Cuisine: {recipe.cuisine}</Text>
-    <Text style={styles.detailText}>
-      Prep Time: {recipe.prep_time_minutes} min
-    </Text>
-    <Text style={styles.detailText}>
-      Cook Time: {recipe.cook_time_minutes} min
-    </Text>
+                <Text style={styles.viewToggle}>{isOpen ? 'Hide' : 'View'}</Text>
+              </View>
 
-    <Text style={styles.ingredientsTitle}>Ingredients</Text>
+              {isOpen && recipe && (
+                <View style={styles.detailsContainer}>
+                  <Text style={styles.sectionTitle}>Meal Details</Text>
 
-    {recipe.ingredients.map((ingredient, ingredientIndex) => (
-      <Text
-        key={`${recipe.id}-${ingredient.name}-${ingredientIndex}`}
-        style={styles.ingredientText}
-      >
-        • {ingredient.name}
-      </Text>
-    ))}
+                  <Text style={styles.detailText}>Cuisine: {recipe.cuisine}</Text>
+                  <Text style={styles.detailText}>
+                    Prep Time: {recipe.prep_time_minutes} min
+                  </Text>
+                  <Text style={styles.detailText}>
+                    Cook Time: {recipe.cook_time_minutes} min
+                  </Text>
 
-    <Pressable
-      style={styles.removeButton}
-      onPress={() => removeRecipeFromSchedule(index)}
-    >
-      <Text style={styles.removeButtonText}>Remove Meal</Text>
-    </Pressable>
-  </View>
-)}
-                </>
-              ) : (
-<View style={styles.emptyRow}>
-  <Text style={styles.emptyText}>No meal planned</Text>
-</View>              )}
+                  <Text style={styles.sectionTitle}>Ingredients</Text>
+
+                  {recipe.ingredients.map((ingredient, i) => (
+                    <Text key={i} style={styles.ingredientText}>
+                      • {ingredient.name}
+                    </Text>
+                  ))}
+
+                  <Pressable
+                    style={styles.removeButton}
+                    onPress={() => removeRecipeFromSchedule(index)}
+                  >
+                    <Text style={styles.removeButtonText}>Remove Meal</Text>
+                  </Pressable>
+                </View>
+              )}
             </Pressable>
           );
         })}
@@ -98,117 +129,112 @@ const handleDayPress = (day: string) => {setSelectedDay((current) => (current ==
 }
 
 const styles = StyleSheet.create({
-  headerImage: {
-    color: '#808080',
-    bottom: -90,
-    left: -35,
-    position: 'absolute',
-  },
   contentContainer: {
     padding: 20,
   },
+
   titleContainer: {
     flexDirection: 'row',
-    gap: 8,
-    marginBottom: 16,
-    paddingBottom: 20,
-    paddingTop: 20,
-    paddingLeft: 50,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 20,
   },
+
   dayCard: {
-    padding: 16,
+    padding: 18,
     borderRadius: 16,
     backgroundColor: '#FFFFFF',
-    marginBottom: 12,
+    marginBottom: 14,
     shadowColor: '#000',
-    shadowOpacity: 0.05,
-    shadowRadius: 6,
-    shadowOffset: { width: 0, height: 2 },
-    elevation: 2,
+    shadowOpacity: 0.06,
+    shadowRadius: 8,
+    shadowOffset: { width: 0, height: 3 },
+    elevation: 3,
   },
-  dayHeader: {
+
+  dayHeaderRow: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    alignItems: 'flex-start',
   },
-dayTitle: {
-  fontSize: 16,
-  fontWeight: '600',
-  marginBottom: 6,
-  color: '#3B2A20',
-},
-  tapText: {
-    fontSize: 13,
-    color: '#7A8A85',
+
+  dayIndicator: {
+    width: 6,
+    height: '100%',
+    borderRadius: 8,
+    marginRight: 14,
   },
-  recipeText: {
-    fontSize: 14,
+
+  dayTitle: {
+    fontSize: 18,
+    fontWeight: '700',
+    color: '#2C2C2C',
+    marginBottom: 4,
+  },
+
+  recipeName: {
+    fontSize: 15,
+    fontWeight: '500',
     color: '#444',
   },
+
+  metaText: {
+    fontSize: 12,
+    color: '#888',
+    marginTop: 2,
+  },
+
   emptyText: {
     fontSize: 14,
     color: '#AAA',
     fontStyle: 'italic',
   },
-detailsContainer: {
-  marginTop: 12,
-  paddingTop: 12,
-  borderTopWidth: 1,
-  borderTopColor: '#EAEAEA',
-  backgroundColor: 'transparent',
-},
+
+  viewToggle: {
+    fontSize: 13,
+    color: '#6C7A7A',
+    fontWeight: '500',
+    paddingLeft: 10,
+  },
+
+  detailsContainer: {
+    marginTop: 16,
+    paddingTop: 16,
+    borderTopWidth: 1,
+    borderTopColor: '#E5E5E5',
+  },
+
+  sectionTitle: {
+    fontSize: 15,
+    fontWeight: '600',
+    color: '#333',
+    marginBottom: 8,
+    marginTop: 4,
+  },
+
   detailText: {
     fontSize: 14,
     color: '#555',
-    marginBottom: 6,
+    marginBottom: 4,
   },
-  ingredientsTitle: {
-    fontSize: 14,
-    fontWeight: '600',
-    marginTop: 8,
-    marginBottom: 6,
-    color: '#333',
-  },
+
   ingredientText: {
     fontSize: 14,
     color: '#666',
-    marginBottom: 4,
+    marginBottom: 3,
   },
-  dayCardRow: {
-  flexDirection: 'row',
-  alignItems: 'flex-start',
-},
 
-dayIndicator: {
-  width: 6,
-  height: '100%',
-  borderRadius: 10,
-  backgroundColor: '#4CAF50',
-  marginRight: 12,
-},
-emptyRow: {
-  flexDirection: 'row',
-  justifyContent: 'space-between',
-  alignItems: 'center',
-},
+  removeButton: {
+    marginTop: 18,
+    paddingVertical: 10,
+    paddingHorizontal: 16,
+    borderRadius: 10,
+    backgroundColor: '#FFE5E5',
+    alignSelf: 'flex-start',
+  },
 
-removeButton: {
-  marginTop: 16,
-  paddingVertical: 10,
-  paddingHorizontal: 14,
-  borderRadius: 10,
-  backgroundColor: '#FDECEC',
-  alignSelf: 'flex-start',
-},
-
-removeButtonText: {
-  color: '#C94B4B',
-  fontSize: 14,
-  fontWeight: '600',
-},
-metaText: {
-  fontSize: 12,
-  color: '#888',
-  marginTop: 2,
-},
+  removeButtonText: {
+    color: '#C94B4B',
+    fontSize: 14,
+    fontWeight: '600',
+  },
 });
