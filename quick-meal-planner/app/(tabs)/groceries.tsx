@@ -63,6 +63,7 @@ export default function GroceriesScreen() {
   const rawItems = useMemo<GroceryItem[]>(() => {
     const seen: Record<string, GroceryItem> = {};
     weeklyRecipes.forEach((recipe) => {
+            if(!recipe) return;
       recipe.ingredients.forEach((ing) => {
         const keyName = ing.name.toLowerCase().trim();
         if (seen[keyName]) {

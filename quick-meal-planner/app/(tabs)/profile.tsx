@@ -41,6 +41,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     gap: 8,
   },
-container: { flex: 1, justifyContent: 'center', alignItems: 'center' },
+ container: {flex: 1, backgroundColor: '#F5EBDD', justifyContent: 'center', alignItems: 'center' ,paddingHorizontal: 24,},
 
 });

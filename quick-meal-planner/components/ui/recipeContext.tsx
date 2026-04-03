@@ -1,17 +1,21 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState, ReactNode } from "react";
 import { Recipe } from "./types";
 
 
 type RecipeContextType = {
-  weeklyRecipes: Recipe[];
+  weeklyRecipes: (Recipe | null)[];
   addRecipe: (recipe: Recipe) => void;
+  removeRecipeFromSchedule: (dayIndex: number) => void;
 };
 
 const RecipeContext = createContext<RecipeContextType | undefined>(undefined);
 
-export const RecipeProvider = ({ children }: any) => {
-    
-  const [weeklyRecipes, setWeeklyRecipes] = useState<Recipe[]>([]);
+type RecipeProviderProps = {
+  children: ReactNode;
+};
+
+export const RecipeProvider = ({ children }: RecipeProviderProps) => {
+const [weeklyRecipes, setWeeklyRecipes] = useState<(Recipe | null)[]>([]);
 
   // Add new recipe to weekly schedule
   const addRecipe = (recipe: Recipe) => {
@@ -23,8 +27,16 @@ export const RecipeProvider = ({ children }: any) => {
 //     console.log("Weekly recipes changed:", weeklyRecipes);
 //   }, [weeklyRecipes]);
 
+  const removeRecipeFromSchedule = (dayIndex: number) => {
+    setWeeklyRecipes((prev) => {
+      const updated = [...prev];
+      updated[dayIndex] = null;
+      return updated;
+    });
+  };
+
   return (
-    <RecipeContext.Provider value={{ weeklyRecipes, addRecipe }}>
+    <RecipeContext.Provider value={{ weeklyRecipes, addRecipe,removeRecipeFromSchedule,}}>
       {children}
     </RecipeContext.Provider>
   );
