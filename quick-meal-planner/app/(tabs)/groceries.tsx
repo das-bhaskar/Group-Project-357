@@ -1,15 +1,24 @@
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useState, useRef } from "react";
 import {
   View,
   Text,
   StyleSheet,
   Pressable,
   SectionList,
+  Animated,
+  PanResponder,
+  LayoutAnimation,
+  Platform,
+  UIManager,
 } from "react-native";
 import { useRecipeContext } from "@/components/ui/recipeContext";
 import { Ingredient } from "@/components/ui/types";
 import { ThemedView } from "@/components/themed-view";
 import { ThemedText } from "@/components/themed-text";
+
+if (Platform.OS === "android" && UIManager.setLayoutAnimationEnabledExperimental) {
+  UIManager.setLayoutAnimationEnabledExperimental(true);
+}
 
 const CATEGORY_RULES: { keywords: string[]; category: string; icon: string }[] = [
   {
@@ -45,6 +54,9 @@ const CATEGORY_META: Record<string, { icon: string; color: string; bg: string }>
 const DEFAULT_CATEGORY = "Other";
 const CATEGORY_ORDER = ["Produce", "Meat & Fish", "Dairy", "Pantry", "Other"];
 const GREEN = "#1D9E75";
+const DELETE_THRESHOLD = -80; 
+const DELETE_BTN_WIDTH = 72;
+
 
 function categorize(name: string): string {
   const lower = name.toLowerCase();
@@ -57,13 +69,147 @@ function categorize(name: string): string {
 type GroceryItem = Ingredient & { recipeId: number; key: string; checked: boolean };
 type SectionData = { title: string; data: GroceryItem[] };
 
+function SwipeableRow({
+  item,
+  checked,
+  onToggle,
+  onDelete,
+}: {
+  item: GroceryItem;
+  checked: boolean;
+  onToggle: () => void;
+  onDelete: () => void;
+}) {
+  const translateX = useRef(new Animated.Value(0)).current;
+  const rowWidth = useRef(0);
+  const isOpen = useRef(false);
+
+  const panResponder = useRef(
+    PanResponder.create({
+      onStartShouldSetPanResponder: () => false,
+      onMoveShouldSetPanResponder: (_, g) =>
+        Math.abs(g.dx) > 5 && Math.abs(g.dx) > Math.abs(g.dy) * 1.5,
+      onPanResponderGrant: () => {
+        translateX.stopAnimation((val) => {
+          translateX.setOffset(val);
+          translateX.setValue(0);
+        });
+      },
+      onPanResponderMove: (_, g) => {
+        // Hard-clamp: never allow rightward slide past 0
+        const clamped = Math.min(0, Math.max(g.dx, -rowWidth.current * 0.65));
+        translateX.setValue(clamped);
+      },
+      onPanResponderRelease: () => {
+        translateX.flattenOffset();
+        const currentVal: number = (translateX as any)._value;
+        if (currentVal < DELETE_THRESHOLD) {
+          Animated.spring(translateX, {
+            toValue: -DELETE_BTN_WIDTH,
+            useNativeDriver: true,
+            overshootClamping: true,
+            restSpeedThreshold: 0.5,
+            restDisplacementThreshold: 0.5,
+          }).start();
+          isOpen.current = true;
+        } else {
+          Animated.spring(translateX, {
+            toValue: 0,
+            useNativeDriver: true,
+            overshootClamping: true,
+            restSpeedThreshold: 0.5,
+            restDisplacementThreshold: 0.5,
+          }).start();
+          isOpen.current = false;
+        }
+      },
+      onPanResponderTerminate: () => {
+        translateX.flattenOffset();
+        Animated.spring(translateX, {
+          toValue: isOpen.current ? -DELETE_BTN_WIDTH : 0,
+          useNativeDriver: true,
+          overshootClamping: true,
+        }).start();
+      },
+    })
+  ).current;
+
+  const closeRow = () => {
+    Animated.spring(translateX, { toValue: 0, useNativeDriver: true, bounciness: 4 }).start();
+    isOpen.current = false;
+  };
+
+  const handleDelete = () => {
+    Animated.timing(translateX, {
+      toValue: -(rowWidth.current || 400),
+      duration: 220,
+      useNativeDriver: true,
+    }).start(() => {
+      LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+      onDelete();
+    });
+  };
+  return (
+    <View
+      style={styles.swipeContainer}
+      onLayout={(e) => { rowWidth.current = e.nativeEvent.layout.width; }}
+    >
+      {/* Red delete bg */}
+      <View style={styles.deleteBg}>
+        <Pressable style={styles.deleteBtn} onPress={handleDelete}>
+          <Text style={styles.deleteIcon}>🗑️</Text>
+          <Text style={styles.deleteLabel}>Delete</Text>
+        </Pressable>
+      </View>
+
+      {/* Foreground row */}
+      <Animated.View
+        style={{ transform: [{ translateX }] }}
+        {...panResponder.panHandlers}
+      >
+        <Pressable
+          style={({ pressed }) => [styles.grocItem, pressed && styles.grocItemPressed]}
+          onPress={() => {
+            if (isOpen.current) {
+              closeRow();
+            } else {
+              onToggle();
+            }
+          }}
+        >
+          {/* Checkbox */}
+          <View style={[styles.check, checked && styles.checkDone]}>
+            {checked && <View style={styles.checkMark} />}
+          </View>
+
+          {/* Name */}
+          <View style={styles.grocBody}>
+            <Text
+              style={[styles.grocName, checked && styles.grocNameChecked]}
+              numberOfLines={1}
+            >
+              {item.name.charAt(0).toUpperCase() + item.name.slice(1)}
+            </Text>
+          </View>
+
+          {/* Qty */}
+          <Text style={[styles.grocQty, checked && styles.grocQtyChecked]}>
+            {item.quantity}{item.unit}
+          </Text>
+        </Pressable>
+      </Animated.View>
+    </View>
+  );
+}
+
+// ── Main screen ──────────────────────────────────────────────────────────────
 export default function GroceriesScreen() {
   const { weeklyRecipes } = useRecipeContext();
 
   const rawItems = useMemo<GroceryItem[]>(() => {
     const seen: Record<string, GroceryItem> = {};
     weeklyRecipes.forEach((recipe) => {
-            if(!recipe) return;
+      if (!recipe) return;
       recipe.ingredients.forEach((ing) => {
         const keyName = ing.name.toLowerCase().trim();
         if (seen[keyName]) {
@@ -83,6 +229,7 @@ export default function GroceriesScreen() {
   }, [weeklyRecipes]);
 
   const [checkedKeys, setCheckedKeys] = useState<Set<string>>(new Set());
+  const [deletedKeys, setDeletedKeys] = useState<Set<string>>(new Set());
 
   const toggleCheck = (key: string) => {
     setCheckedKeys((prev) => {
@@ -92,9 +239,29 @@ export default function GroceriesScreen() {
     });
   };
 
+  const deleteItem = (key: string) => {
+    setDeletedKeys((prev) => new Set(prev).add(key));
+    // Also uncheck if it was checked
+    setCheckedKeys((prev) => {
+      const next = new Set(prev);
+      next.delete(key);
+      return next;
+    });
+  };
+
+  const visibleItems = useMemo(
+    () => rawItems.filter((i) => !deletedKeys.has(i.key)),
+    [rawItems, deletedKeys]
+  );
+  const visibleRecipeIds = useMemo(() => {
+    const ids = new Set<number>();
+    visibleItems.forEach((item) => ids.add(item.recipeId));
+    return ids;
+  }, [visibleItems]);
+
   const sections: SectionData[] = useMemo(() => {
     const groups: Record<string, GroceryItem[]> = {};
-    rawItems.forEach((item) => {
+    visibleItems.forEach((item) => {
       const cat = categorize(item.name);
       if (!groups[cat]) groups[cat] = [];
       groups[cat].push({ ...item, checked: checkedKeys.has(item.key) });
@@ -103,13 +270,13 @@ export default function GroceriesScreen() {
       title: cat,
       data: groups[cat],
     }));
-  }, [rawItems, checkedKeys]);
+  }, [visibleItems, checkedKeys]);
 
-  const totalItems = rawItems.length;
+  const totalItems = visibleItems.length;
   const checkedCount = checkedKeys.size;
-  const totalCost = rawItems
-  .filter((i) => !checkedKeys.has(i.key))   // only un-checked items
-  .reduce((s, i) => s + i.cost, 0);
+  const totalCost = visibleItems
+    .filter((i) => !checkedKeys.has(i.key))
+    .reduce((s, i) => s + i.cost, 0);
   const progress = totalItems > 0 ? checkedCount / totalItems : 0;
 
   return (
@@ -125,9 +292,6 @@ export default function GroceriesScreen() {
             <View style={styles.titleRow}>
               <ThemedText style={styles.pageTitle}>Groceries</ThemedText>
               <View style={styles.pill}>
-                <Text style={styles.pillText}>
-                  {checkedCount}/{totalItems} done
-                </Text>
               </View>
             </View>
 
@@ -139,9 +303,9 @@ export default function GroceriesScreen() {
               </View>
               <View style={styles.statDivider} />
               <View style={styles.statBox}>
-                <Text style={styles.statValue}>{weeklyRecipes.length}</Text>
+                <Text style={styles.statValue}>{visibleRecipeIds.size}</Text>
                 <Text style={styles.statLabel}>
-                  {weeklyRecipes.length === 1 ? "Recipe" : "Recipes"}
+                  {visibleRecipeIds.size === 1 ? "Recipe" : "Recipes"}
                 </Text>
               </View>
               <View style={styles.statDivider} />
@@ -177,36 +341,14 @@ export default function GroceriesScreen() {
             </View>
           );
         }}
-        renderItem={({ item }) => {
-          const checked = checkedKeys.has(item.key);
-          return (
-            <Pressable
-              style={({ pressed }) => [styles.grocItem, pressed && styles.grocItemPressed]}
-              onPress={() => toggleCheck(item.key)}
-            >
-              {/* Checkbox */}
-              <View style={[styles.check, checked && styles.checkDone]}>
-                {checked && (
-                  <View style={styles.checkMark} />
-                )}
-              </View>
-
-              {/* Name + qty */}
-              <View style={styles.grocBody}>
-                <Text
-                  style={[styles.grocName, checked && styles.grocNameChecked]}
-                  numberOfLines={1}
-                >
-                  {item.name.charAt(0).toUpperCase() + item.name.slice(1)}
-                </Text>
-              </View>
-
-              <Text style={[styles.grocQty, checked && styles.grocQtyChecked]}>
-                {item.quantity}{item.unit}
-              </Text>
-            </Pressable>
-          );
-        }}
+        renderItem={({ item }) => (
+          <SwipeableRow
+            item={item}
+            checked={checkedKeys.has(item.key)}
+            onToggle={() => toggleCheck(item.key)}
+            onDelete={() => deleteItem(item.key)}
+          />
+        )}
         SectionSeparatorComponent={() => <View style={{ height: 4 }} />}
         ListEmptyComponent={
           <View style={styles.empty}>
@@ -257,7 +399,7 @@ const styles = StyleSheet.create({
   // Stats
   statsRow: {
     flexDirection: "row",
-    backgroundColor: "#E6A36A",   // dark card
+    backgroundColor: "#E6A36A",
     borderRadius: 16,
     paddingVertical: 16,
     paddingHorizontal: 12,
@@ -270,54 +412,45 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
   },
-  
   statBox: {
     flex: 1,
     alignItems: "center",
     gap: 2,
   },
-  
   statValue: {
     fontSize: 28,
     fontWeight: "700",
-    color: "#FFFFFF",   
+    color: "#FFFFFF",
     letterSpacing: -0.3,
   },
-  
   statLabel: {
     fontSize: 16,
     fontWeight: "600",
-    color: "black",   
+    color: "black",
     textTransform: "uppercase",
     letterSpacing: 0.8,
   },
-  
   statDivider: {
     width: 1,
     height: 32,
-    backgroundColor: "#3A3A3C",   // subtle divider
+    backgroundColor: "#3A3A3C",
     marginHorizontal: 8,
     borderRadius: 1,
   },
-  
 
   // Progress
-  progressWrap: {
-    marginBottom: 8,
+  progressWrap: { marginBottom: 8 },
+  progressTrack: {
+    height: 3,
+    backgroundColor: "#3A3A3C",
+    borderRadius: 2,
+    overflow: "hidden",
   },
-progressTrack: {
-  height: 3,
-  backgroundColor: "#3A3A3C",
-  borderRadius: 2,
-  overflow: "hidden",
-},
-
-progressFill: {
-  height: 3,
-  backgroundColor: "#30D158",   
-  borderRadius: 2,
-},
-
+  progressFill: {
+    height: 3,
+    backgroundColor: "#30D158",
+    borderRadius: 2,
+  },
   doneLabel: {
     fontSize: 11,
     color: GREEN,
@@ -361,13 +494,41 @@ progressFill: {
     color: "#6B7280",
   },
 
+  // ── Swipe ──────────────────────────────────────
+  swipeContainer: {
+    marginHorizontal: 16,
+    marginBottom: 4,
+    borderRadius: 10,
+    overflow: "hidden",
+  },
+  deleteBg: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: "#FF3B30",
+    borderRadius: 10,
+    alignItems: "flex-end",
+    justifyContent: "center",
+  },
+  deleteBtn: {
+    width: DELETE_BTN_WIDTH,
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 3,
+    paddingHorizontal: 8,
+    height: "100%",
+  },
+  deleteIcon: { fontSize: 18 },
+  deleteLabel: {
+    fontSize: 11,
+    fontWeight: "700",
+    color: "#fff",
+    letterSpacing: 0.2,
+  },
+
   // ── Grocery item ───────────────────────────────
   grocItem: {
     flexDirection: "row",
     alignItems: "center",
     gap: 11,
-    marginHorizontal: 16,
-    marginBottom: 4,
     paddingVertical: 10,
     paddingHorizontal: 12,
     backgroundColor: "#fff",
@@ -375,9 +536,7 @@ progressFill: {
     borderWidth: 1,
     borderColor: "#ECEEF1",
   },
-  grocItemPressed: {
-    opacity: 0.7,
-  },
+  grocItemPressed: { opacity: 0.7 },
   check: {
     width: 20,
     height: 20,
@@ -415,9 +574,7 @@ progressFill: {
     color: "#9AA0AB",
     fontWeight: "500",
   },
-  grocQtyChecked: {
-    color: "#D0D5DC",
-  },
+  grocQtyChecked: { color: "#D0D5DC" },
 
   // ── Empty ──────────────────────────────────────
   empty: {

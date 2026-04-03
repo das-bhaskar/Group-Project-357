@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import {
   View, Text, StyleSheet, Image, Pressable, Modal,
-  ScrollView, TouchableOpacity,
+  ScrollView, TouchableOpacity, FlatList,
 } from "react-native";
 import { Recipe } from "./types";
 import { useRecipeContext } from "@/components/ui/recipeContext";
@@ -13,11 +13,20 @@ const RecipeCard: React.FC<Props> = ({ recipe }) => {
   const { addRecipe } = useRecipeContext();
   const [modalVisible, setModalVisible] = useState(false);
   const [confirmVisible, setConfirmVisible] = useState(false);
-
+  const [dayModalVisible, setDayModalVisible] = useState(false);
 
   const totalTime = recipe.prep_time_minutes + recipe.cook_time_minutes;
   const totalCost = recipe.ingredients.reduce((sum, i) => sum + i.cost, 0);
   const sourceImage = recipeImages[recipe.image];
+
+  // Days of the week matching your schedule order
+  const daysOfWeek = ['Saturday', 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
+
+  const handleAddToSchedule = (dayIndex: number) => {
+    addRecipe(recipe, dayIndex);
+    setDayModalVisible(false);
+    setConfirmVisible(true);
+  };
 
   return (
     <>
@@ -102,14 +111,71 @@ const RecipeCard: React.FC<Props> = ({ recipe }) => {
             style={styles.addButton}
             activeOpacity={0.8}
             onPress={() => {
-              addRecipe(recipe);
               setModalVisible(false);
-              setConfirmVisible(true);
+              setDayModalVisible(true);
             }}
           >
             <Text style={styles.addButtonText}>Add to Schedule</Text>
           </TouchableOpacity>
         </ScrollView>
+      </Modal>
+
+      {/* ---- Day Selection Modal ---- */}
+      <Modal
+        animationType="slide"
+        presentationStyle="pageSheet"
+        visible={dayModalVisible}
+        onRequestClose={() => setDayModalVisible(false)}
+      >
+        <View style={styles.dayModalContainer}>
+          {/* Header */}
+          <View style={styles.dayModalHeader}>
+            <Text style={styles.dayModalTitle}>Add "{recipe.name}" to Schedule</Text>
+            <Pressable 
+              onPress={() => setDayModalVisible(false)}
+              style={styles.dayModalClose}
+            >
+              <Text style={styles.dayModalCloseText}>✕</Text>
+            </Pressable>
+          </View>
+
+          {/* Recipe preview */}
+          <View style={styles.recipePreview}>
+            <Text style={styles.recipePreviewTitle}>{recipe.name}</Text>
+            <Text style={styles.recipePreviewTime}>{totalTime} min • {recipe.servings} servings</Text>
+          </View>
+
+          {/* Day selection */}
+          <Text style={styles.daySelectionTitle}>Choose a day:</Text>
+          
+          <FlatList
+            data={daysOfWeek}
+            keyExtractor={(item) => item}
+            renderItem={({ item, index }) => (
+              <TouchableOpacity
+                style={[
+                  styles.dayOption,
+                  index === 0 && styles.dayOptionHighlighted // Highlight Saturday
+                ]}
+                activeOpacity={0.7}
+                onPress={() => handleAddToSchedule(index)}
+              >
+                <Text style={styles.dayOptionText}>{item}</Text>
+                <Text style={styles.dayOptionIcon}>➤</Text>
+              </TouchableOpacity>
+            )}
+            contentContainerStyle={styles.dayList}
+            showsVerticalScrollIndicator={false}
+          />
+
+          {/* Cancel button */}
+          <TouchableOpacity
+            style={styles.cancelButton}
+            onPress={() => setDayModalVisible(false)}
+          >
+            <Text style={styles.cancelButtonText}>Cancel</Text>
+          </TouchableOpacity>
+        </View>
       </Modal>
   
       {/* ---- Confirmation Popup ---- */}
@@ -135,8 +201,6 @@ const RecipeCard: React.FC<Props> = ({ recipe }) => {
     </>
   );
 };
-  
-export default RecipeCard;
 
 const BRAND = "#2E8B63";
 
@@ -208,13 +272,14 @@ const styles = StyleSheet.create({
     alignItems: "center", marginTop: 32,
   },
   addButtonText: { color: "#fff", fontSize: 16, fontWeight: "700" },
+
+  /* Confirmation */
   confirmOverlay: {
     flex: 1,
     backgroundColor: "rgba(0,0,0,0.4)",
     justifyContent: "center",
     alignItems: "center",
   },
-  
   confirmBox: {
     backgroundColor: "#fff",
     padding: 24,
@@ -226,25 +291,126 @@ const styles = StyleSheet.create({
     shadowRadius: 10,
     elevation: 5,
   },
-  
   confirmText: {
     fontSize: 16,
     fontWeight: "600",
     marginBottom: 16,
     color: "#1A1A1A",
   },
-  
   confirmButton: {
     backgroundColor: BRAND,
     paddingVertical: 10,
     paddingHorizontal: 24,
     borderRadius: 10,
   },
-  
   confirmButtonText: {
     color: "#fff",
     fontSize: 15,
     fontWeight: "600",
   },
-  
+
+  /* NEW: Day Selection Modal Styles */
+  dayModalContainer: {
+    flex: 1,
+    backgroundColor: '#fff',
+  },
+  dayModalHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    padding: 24,
+    paddingBottom: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: '#F0F0F0',
+  },
+  dayModalTitle: {
+    fontSize: 20,
+    fontWeight: '700',
+    color: '#1A1A1A',
+    flex: 1,
+  },
+  dayModalClose: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    backgroundColor: '#F2F2F2',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  dayModalCloseText: {
+    fontSize: 16,
+    color: '#666',
+  },
+  recipePreview: {
+    paddingHorizontal: 24,
+    paddingVertical: 20,
+    backgroundColor: '#F8FAF9',
+    borderBottomWidth: 1,
+    borderBottomColor: '#E5E5E5',
+  },
+  recipePreviewTitle: {
+    fontSize: 18,
+    fontWeight: '600',
+    color: '#1A1A1A',
+    marginBottom: 4,
+  },
+  recipePreviewTime: {
+    fontSize: 14,
+    color: '#666',
+  },
+  daySelectionTitle: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#1A1A1A',
+    margin: 24,
+    marginBottom: 12,
+  },
+  dayList: {
+    paddingHorizontal: 24,
+    paddingBottom: 24,
+  },
+  dayOption: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    backgroundColor: '#fff',
+    padding: 16,
+    marginBottom: 12,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: '#F0F0F0',
+    shadowColor: '#000',
+    shadowOpacity: 0.05,
+    shadowOffset: { width: 0, height: 1 },
+    shadowRadius: 3,
+    elevation: 1,
+  },
+  dayOptionHighlighted: {
+    backgroundColor: '#E8F5E8',
+    borderColor: BRAND,
+  },
+  dayOptionText: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#1A1A1A',
+  },
+  dayOptionIcon: {
+    fontSize: 16,
+    color: BRAND,
+  },
+  cancelButton: {
+    margin: 24,
+    paddingVertical: 14,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: '#E0E0E0',
+    alignItems: 'center',
+  },
+  cancelButtonText: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#666',
+  },
 });
+
+export default RecipeCard;
