@@ -5,6 +5,7 @@ import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 import { Fonts } from '@/constants/theme';
 import { useRecipeContext } from '@/components/ui/recipeContext';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 export default function ScheduleScreen() {
   const { weeklyRecipes, removeRecipeFromSchedule } = useRecipeContext();
@@ -46,11 +47,12 @@ const dayColors: Record<string, string> = {
       headerImage={null}
     >
       <ThemedView style={[styles.contentContainer, { backgroundColor: 'transparent' }]}>
-        <ThemedView style={styles.titleContainer}>
-          <ThemedText type="title" style={{ fontFamily: Fonts.rounded }}>
-            📅 Schedule
-          </ThemedText>
-        </ThemedView>
+      <ThemedView style={styles.titleContainer}>
+  <Icon name="calendar-month-outline" size={30} color="#4CAF50" />
+  <ThemedText type="title" style={{ fontFamily: Fonts.rounded, marginLeft: 8 }}>
+    Schedule
+  </ThemedText>
+</ThemedView>
 
         {days.map((day, index) => {
           const recipe = weeklyRecipes[index];
