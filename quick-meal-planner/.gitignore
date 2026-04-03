@@ -65,3 +65,5 @@ __pycache__/
 
 # OS generated files
 .DS_Store
+
+node_modules_old/

@@ -43,6 +43,7 @@ const styles = StyleSheet.create({
   container: { 
     flex: 1, 
     justifyContent: 'center', 
+    backgroundColor: '#F5EBDD', 
     padding: 50 },
   input: {
     height: 40,
@@ -52,9 +53,24 @@ const styles = StyleSheet.create({
     padding: 10,
     color: 'white'
   },
-    title: {
-    fontSize: 18,
-    fontWeight: "600",
+
+  title: {
+    fontSize: 22,
+    fontWeight: '700',
+    color: '#5A3726',
+    marginBottom: 8,
+  },
+
+  input: {
+    height: 52,
+    borderWidth: 1,
+    borderColor: '#E8DDD0',
+    borderRadius: 14,
+    paddingHorizontal: 16,
+    backgroundColor: '#FCFAF7',
+    marginBottom: 14,
+    fontSize: 16,
+    color: '#333333',
   },
 
 });
