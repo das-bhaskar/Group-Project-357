@@ -1,9 +1,11 @@
 # Group-Project-357
 
-- Colton Leblond - 40210640 - FrontEnd Developer
-- Sara Rezene Habte
-- Nicole Antoun
-- Bhaskar Das - 40325270
+| Full Name | Role | Student ID |
+|-----------------|------------------|-----------|
+| Nicole Antoun  | Frontend | 40284018 |
+| Sara Rezene Habte  | Frontend | 40224677 |
+| Colton Leblond | Frontend | 40210640 |
+| Bhaskar Das  | Backend | 40325270 |
 
 # Welcome to our Quick Meal app 👋
 
