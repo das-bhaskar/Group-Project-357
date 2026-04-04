@@ -44,13 +44,6 @@ export default function TabLayout() {
               tabBarIcon: ({ color }) => <FontAwesome name="calendar" size={28} color={color} />,
             }}
           />
-          <Tabs.Screen
-            name="profile"
-            options={{
-              title: 'Profile',
-              tabBarIcon: ({ color }) => <MaterialIcons name="person" size={28} color={color} />,
-            }}
-          />
         </Tabs>
         </SafeAreaProvider>
     </RecipeProvider>
